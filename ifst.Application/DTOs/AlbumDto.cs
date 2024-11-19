@@ -1,4 +1,7 @@
-﻿namespace ifst.API.ifst.Application.DTOs;
+﻿
+using ifst.API.ifst.Domain.Entities;
+
+namespace ifst.API.ifst.Application.DTOs;
 
 public class AlbumDto
 {

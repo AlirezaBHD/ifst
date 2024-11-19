@@ -16,16 +16,16 @@ namespace ifst.API.ifst.API.Controllers
     {
         
         private readonly FileService _fileService;
-        private readonly IAlbumRepository _albumGeneralRepository;
-        private readonly IRepository<Image> _imageGeneralRepository;
+        private readonly IAlbumRepository _albumRepository;
+        private readonly IRepository<Image> _imageRepository;
         private readonly GeneralServices _generalServices;
 
         public AlbumsController(FileService fileService,
             IAlbumRepository albumRepository, GeneralServices generalServices, IRepository<Image> imageRepository)
         {
             _fileService = fileService;
-            _albumGeneralRepository = albumRepository;
-            _imageGeneralRepository = imageRepository;
+            _albumRepository = albumRepository;
+            _imageRepository = imageRepository;
             _generalServices = generalServices;
         }
 
@@ -41,7 +41,7 @@ namespace ifst.API.ifst.API.Controllers
                 Images = new List<Image>()
             };
 
-            await _albumGeneralRepository.AddAsync(album);
+            await _albumRepository.AddAsync(album);
             await _generalServices.SaveAsync();
 
 
@@ -61,7 +61,7 @@ namespace ifst.API.ifst.API.Controllers
                 return BadRequest("Description is required.");
             if (file == null || file.Length == 0)
                 return BadRequest("File is required.");
-            var album = await _albumGeneralRepository.GetByIdAsync(albumId);
+            var album = await _albumRepository.GetByIdAsync(albumId);
 
 
             if (album == null)
@@ -78,7 +78,7 @@ namespace ifst.API.ifst.API.Controllers
                 AlbumId = albumId
             };
 
-            await _imageGeneralRepository.AddAsync(image);
+            await _imageRepository.AddAsync(image);
             album.Images.Add(image);
             await _generalServices.SaveAsync();
 
@@ -95,11 +95,11 @@ namespace ifst.API.ifst.API.Controllers
         [HttpDelete("DeleteAlbum/{id}")]
         public async Task<IActionResult> DeleteAlbum(int id)
         {
-            var album = await _albumGeneralRepository.GetByIdAsync(id);
+            var album = await _albumRepository.GetByIdAsync(id);
             if (album == null)
                 return NotFound("Album not found.");
 
-            _albumGeneralRepository.Remove(album);
+            _albumRepository.Remove(album);
             await _generalServices.SaveAsync();
 
             return Ok("Album deleted.");
@@ -108,7 +108,7 @@ namespace ifst.API.ifst.API.Controllers
         [HttpGet("GetImage")]
         public async Task<IActionResult> GetImage(int id)
         {
-            var image = await _imageGeneralRepository.GetByIdAsync(id);
+            var image = await _imageRepository.GetByIdAsync(id);
 
             if (image == null)
             {
@@ -120,14 +120,24 @@ namespace ifst.API.ifst.API.Controllers
         [HttpGet("GetAlbum")]
         public async Task<IActionResult> GetAlbum(int id)
         {
-            var album = await _albumGeneralRepository.GetByIdAsync(id);
-            // var album = _albumGeneralRepository.GetAlbumByIdAsync
+            var album =await _albumRepository.GetAlbumByIdAsync(id);
 
             if (album == null)
             {
                 return NotFound("Image not found.");
             }
-            return Ok(album);
+
+            var albumDto = new AlbumDto()
+            {
+                Id = album.Id,
+                Title = album.Title,
+                Images = album.Images.Select(i => new ImageDto
+                {
+                    Id = i.Id,
+                    Path = i.Path
+                }).ToList()
+            };
+            return Ok(albumDto);
         }
     }
 }
