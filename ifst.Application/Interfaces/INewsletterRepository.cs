@@ -1,6 +1,8 @@
-﻿namespace ifst.API.ifst.Application.Interfaces;
+﻿using ifst.API.ifst.Domain.Entities;
 
-public interface INewsletterRepository
+namespace ifst.API.ifst.Application.Interfaces;
+
+public interface INewsletterRepository : IRepository<Newsletter>
 {
     
 }
