@@ -32,6 +32,14 @@ builder.Services.AddScoped<GeneralServices>();
 
 var app = builder.Build();
 
+//For Swagger Dark Theme
+app.UseStaticFiles();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyAPI");
+    c.InjectStylesheet("/swagger-ui/SwaggerDark.css");
+});
+
 app.MapControllers();
 
 // Configure the HTTP request pipeline.

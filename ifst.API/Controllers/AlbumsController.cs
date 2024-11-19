@@ -14,7 +14,6 @@ namespace ifst.API.ifst.API.Controllers
     [ApiController]
     public class AlbumsController : ControllerBase
     {
-        
         private readonly FileService _fileService;
         private readonly IAlbumRepository _albumRepository;
         private readonly IRepository<Image> _imageRepository;
@@ -69,7 +68,7 @@ namespace ifst.API.ifst.API.Controllers
                 return NotFound("Album not found.");
             }
 
-            var path = await _fileService.SaveFileAsync(file , "Albums");
+            var path = await _fileService.SaveFileAsync(file, "Albums");
 
             var image = new Image
             {
@@ -98,7 +97,6 @@ namespace ifst.API.ifst.API.Controllers
             var album = await _albumRepository.GetByIdAsync(id);
             if (album == null)
                 return NotFound("Album not found.");
-
             _albumRepository.Remove(album);
             await _generalServices.SaveAsync();
 
@@ -114,13 +112,14 @@ namespace ifst.API.ifst.API.Controllers
             {
                 return NotFound("Image not found.");
             }
+
             return Ok(image);
         }
-        
+
         [HttpGet("GetAlbum")]
         public async Task<IActionResult> GetAlbum(int id)
         {
-            var album =await _albumRepository.GetAlbumByIdAsync(id);
+            var album = await _albumRepository.GetAlbumByIdAsync(id);
 
             if (album == null)
             {
