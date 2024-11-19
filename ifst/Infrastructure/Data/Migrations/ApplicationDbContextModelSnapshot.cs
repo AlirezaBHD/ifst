@@ -131,6 +131,31 @@ namespace ifst.API.ifst.Infrastructure.Data.Migrations
                     b.ToTable("Images");
                 });
 
+            modelBuilder.Entity("ifst.API.ifst.Domain.Entities.Newsletter", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Newsletter");
+                });
+
             modelBuilder.Entity("ifst.API.ifst.Domain.Entities.Pioneers", b =>
                 {
                     b.Property<int>("Id")
