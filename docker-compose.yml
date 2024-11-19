@@ -1,0 +1,6 @@
+﻿services:
+  ifst.api:
+    image: ifst.api
+    build:
+      context: .
+      dockerfile: Dockerfile
