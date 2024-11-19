@@ -54,4 +54,12 @@ public class ContactInformationController : ControllerBase
         await _generalServices.SaveAsync();
         return Ok(dto);
     }
+
+    [HttpGet("GetContactInformation")]
+    public async Task<IActionResult> GetContactInformation()
+    {
+        var contactInformation = await _repository.GetByIdFirstOrDefaultAsync();
+
+        return Ok(contactInformation);
+    }
 }
