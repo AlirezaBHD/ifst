@@ -39,6 +39,37 @@ namespace ifst.API.ifst.Infrastructure.Data.Migrations
                     b.ToTable("Albums");
                 });
 
+            modelBuilder.Entity("ifst.API.ifst.Domain.Entities.ContactInformation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Number")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PostCode")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ContactInformation");
+                });
+
             modelBuilder.Entity("ifst.API.ifst.Domain.Entities.ContactUs", b =>
                 {
                     b.Property<int>("Id")
