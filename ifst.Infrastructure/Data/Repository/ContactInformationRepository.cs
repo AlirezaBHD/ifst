@@ -3,7 +3,7 @@ using ifst.API.ifst.Domain.Entities;
 
 namespace ifst.API.ifst.Infrastructure.Data.Repository;
 
-public class ContactInformationRepository:Repository<ContactInformation>, IContactInformation
+public class ContactInformationRepository:Repository<ContactInformation>, IContactInformationRepository
 {
     private readonly ApplicationDbContext _context;
 

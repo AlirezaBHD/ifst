@@ -2,7 +2,7 @@
 
 namespace ifst.API.ifst.Application.Interfaces;
 
-public interface IContactInformation:IRepository<ContactInformation>
+public interface IContactInformationRepository:IRepository<ContactInformation>
 {
     
 }
