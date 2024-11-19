@@ -36,5 +36,16 @@ public class ApplicationDbContext : DbContext
             entity.Property(c => c.Subject).HasMaxLength(100);
             entity.Property(c => c.Body).HasMaxLength(1000);
         });
+        
+        modelBuilder.Entity<ContactInformation>(entity =>
+        {
+            entity.HasKey(ci => ci.Id);
+            entity.Property(ci => ci.Phone);
+            entity.Property(ci => ci.Number);
+            entity.Property(ci => ci.Email);
+            entity.Property(ci => ci.Address);
+            entity.Property(ci => ci.PostCode);
+            entity.Property(ci => ci.Location);
+        });
     }
 }
