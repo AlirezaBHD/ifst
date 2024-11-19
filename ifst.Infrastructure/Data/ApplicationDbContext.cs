@@ -47,5 +47,12 @@ public class ApplicationDbContext : DbContext
             entity.Property(ci => ci.PostCode);
             entity.Property(ci => ci.Location);
         });
+        modelBuilder.Entity<Newsletter>(entity =>
+        {
+            entity.HasKey(ci => ci.Id);
+            entity.Property(ci => ci.Title);
+            entity.Property(ci => ci.ImagePath);
+            entity.Property(ci => ci.FilePath);
+        });
     }
 }
