@@ -23,18 +23,9 @@ public class NewsletterController : ControllerBase
     [HttpPost("AddNewsletter")]
     public async Task<IActionResult> AddNewsletter(IFormFile file , IFormFile imageFile , [FromForm] string title)
     {
-        if (file == null || file.Length == 0)
+        if (!ModelState.IsValid)
         {
-            return BadRequest("File is Required");
-        }
-        if (imageFile == null || imageFile.Length == 0)
-        {
-            return BadRequest("Image File is Required");
-        }
-        
-        if (title== null || title.Length == 0)
-        {
-            return BadRequest("Title is Required");
+            return BadRequest(ModelState);
         }
 
         var imagePath = await _fileService.SaveFileAsync(imageFile, "Newsletter");
