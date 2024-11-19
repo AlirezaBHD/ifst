@@ -18,6 +18,8 @@ namespace ifst.API.ifst.Infrastructure.Data.Repository
         }
         public async Task<T> GetByIdAsync(int id) => await _entities.FindAsync(id);
 
+        public async Task<T> GetByIdFirstOrDefaultAsync() => await _entities.FirstOrDefaultAsync();
+
         public async Task<IEnumerable<T>> GetAllAsync() => await _entities.ToListAsync();
 
         public async Task AddAsync(T entity) => await _entities.AddAsync(entity);
