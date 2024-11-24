@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using ifst.API.ifst.Domain.Entities;
+﻿using ifst.API.ifst.Domain.Entities;
 
 namespace ifst.API.ifst.Application.Interfaces
 {

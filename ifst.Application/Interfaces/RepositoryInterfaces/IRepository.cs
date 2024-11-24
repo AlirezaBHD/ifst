@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using ifst.API.ifst.Application.DTOs;
 
 namespace ifst.API.ifst.Application.Interfaces
 {
@@ -11,5 +12,10 @@ namespace ifst.API.ifst.Application.Interfaces
         void Remove(T entity);
         void Update(T entity);
         Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
+
+        Task<PaginatedResult<T>> GetAllPaginated(
+            Expression<Func<T, bool>>? predicate,
+            int pageNumber,
+            int pageSize);
     }
 }
