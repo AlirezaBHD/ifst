@@ -14,6 +14,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<Album> Albums { get; set; }
     public DbSet<Pioneers> Pioneers { get; set; }
     public DbSet<ContactUs> ContactUs { get; set; }
+    public DbSet<ContactInformation> ContactInformation { get; set; }
+    public DbSet<Newsletter> Newsletter { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -23,18 +25,18 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<Pioneers>(entity =>
         {
             entity.HasKey(p => p.Id);
-            entity.Property(p => p.Name).IsRequired().HasMaxLength(100);
-            entity.Property(p => p.CityOfBirth).HasMaxLength(100);
-            entity.Property(p => p.ImagePath).HasMaxLength(250);
-            entity.Property(p => p.ProjectsDescription).HasMaxLength(1000);
+            entity.Property(p => p.Name).IsRequired();
+            entity.Property(p => p.CityOfBirth);
+            entity.Property(p => p.ImagePath);
+            entity.Property(p => p.ProjectsDescription);
         });
         modelBuilder.Entity<ContactUs>(entity =>
         {
             entity.HasKey(c => c.Id);
-            entity.Property(c => c.FullName).IsRequired().HasMaxLength(100);
-            entity.Property(c => c.Email).HasMaxLength(100);
-            entity.Property(c => c.Subject).HasMaxLength(100);
-            entity.Property(c => c.Body).HasMaxLength(1000);
+            entity.Property(c => c.FullName).IsRequired();
+            entity.Property(c => c.Email);
+            entity.Property(c => c.Subject);
+            entity.Property(c => c.Body);
         });
         
         modelBuilder.Entity<ContactInformation>(entity =>
