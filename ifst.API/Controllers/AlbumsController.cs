@@ -25,31 +25,17 @@ namespace ifst.API.ifst.API.Controllers
         [HttpPost("CreateAlbum")]
         public async Task<IActionResult> CreateAlbum([FromForm] CreateAlbumDto createAlbumDto)
         {
-            try
-            {
                 var albumDtoObj = await _albumService.CreateAlbumAsync(createAlbumDto);
 
                 // return CreatedAtAction(albumDtoObj.Title,new { id = albumDtoObj.Id },albumDtoObj);
                 return Ok(albumDtoObj);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Internal server error.");
-            }
         }
 
         [HttpGet("GetAlbum")]
         public async Task<IActionResult> GetAlbum([FromQuery] GetAlbumDto albumDto)
         {
-            try
-            {
                 var albumDtoObj = await _albumService.GetAlbumByIdAsync(albumDto.Id);
                 return Ok(albumDtoObj);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Internal server error.");
-            }
         }
 
 
