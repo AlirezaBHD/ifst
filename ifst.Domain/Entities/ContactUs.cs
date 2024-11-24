@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using ifst.API.ifst.Domain.Common;
 
 namespace ifst.API.ifst.Domain.Entities;
-
+[DisplayName("تماس")]
 public class ContactUs
 {
     public ContactUs()

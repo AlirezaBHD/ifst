@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using ifst.API.ifst.Domain.Common;
 
 namespace ifst.API.ifst.Domain.Entities;
-
+[DisplayName("حساب کاربری")]
 public class Account
 {
     public int Id { get; set; }

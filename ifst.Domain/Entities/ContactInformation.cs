@@ -1,5 +1,7 @@
-﻿namespace ifst.API.ifst.Domain.Entities;
+﻿using ifst.API.ifst.Domain.Common;
 
+namespace ifst.API.ifst.Domain.Entities;
+[DisplayName("اطلاعات تماس")]
 public class ContactInformation
 {
     public int Id { get; set; }

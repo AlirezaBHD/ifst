@@ -1,5 +1,11 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using ifst.API.ifst.API.Controllers;
+using ifst.API.ifst.API.Middleware;
+using ifst.API.ifst.Application.FluentValidation;
+using ifst.API.ifst.Application.FluentValidation.AlbumValidator;
 using ifst.API.ifst.Application.Interfaces;
+using ifst.API.ifst.Application.Interfaces.ServiceInterfaces;
 using ifst.API.ifst.Application.Services;
 using ifst.API.ifst.Domain.Entities;
 using ifst.API.ifst.Infrastructure.Data;
@@ -22,17 +28,35 @@ builder.Services.AddScoped<ApplicationDbContext>();
 builder.Services.AddControllers();
 builder.Services.AddScoped<FileService>();
 
-builder.Services.AddScoped<IRepository<Album>, Repository<Album>>();
-builder.Services.AddScoped<IRepository<Image>, Repository<Image>>();
+
 builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();
+builder.Services.AddScoped<IImageRepository, ImageRepository>();
 builder.Services.AddScoped<IPioneersRepository, PioneersRepository>();
 builder.Services.AddScoped<IContactUsRepository, ContactUsRepository>();
 builder.Services.AddScoped<IContactInformationRepository, ContactInformationRepository>();
 builder.Services.AddScoped<INewsletterRepository, NewsletterRepository>();
-builder.Services.AddScoped<GeneralServices>();
+builder.Services.AddScoped<IGeneralServices,GeneralServices>();
+builder.Services.AddScoped<IAlbumService,AlbumService>();
 
+builder.Services.AddValidatorsFromAssemblyContaining<CreateAlbumValidator>();
+builder.Services.AddFluentValidationAutoValidation();
+
+
+//AutoMapper
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+//Not Null Filter
+// builder.Services.AddControllers(options =>
+// {
+//     options.Filters.Add<ValidateNotNullFilter>();
+// });
 
 var app = builder.Build();
+
+
+//Middleware
+app.UseMiddleware<ValidationMiddleware>();
+
 
 //For Swagger Dark Theme
 app.UseStaticFiles();
