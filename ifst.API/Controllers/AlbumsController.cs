@@ -1,10 +1,11 @@
-﻿using ifst.API.ifst.Application.DTOs;
+﻿using System.Diagnostics;
+using AutoMapper;
+using ifst.API.ifst.Application.DTOs;
 using ifst.API.ifst.Application.Interfaces;
+using ifst.API.ifst.Application.Interfaces.ServiceInterfaces;
 using ifst.API.ifst.Domain.Entities;
-using ifst.API.ifst.Infrastructure.Data;
 using ifst.API.ifst.Infrastructure.FileManagement;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ifst.API.ifst.Application.Services;
 
 
@@ -14,129 +15,50 @@ namespace ifst.API.ifst.API.Controllers
     [ApiController]
     public class AlbumsController : ControllerBase
     {
-        private readonly FileService _fileService;
-        private readonly IAlbumRepository _albumRepository;
-        private readonly IRepository<Image> _imageRepository;
-        private readonly GeneralServices _generalServices;
+        private readonly IAlbumService _albumService;
 
-        public AlbumsController(FileService fileService,
-            IAlbumRepository albumRepository, GeneralServices generalServices, IRepository<Image> imageRepository)
+        public AlbumsController(IAlbumService albumService)
         {
-            _fileService = fileService;
-            _albumRepository = albumRepository;
-            _imageRepository = imageRepository;
-            _generalServices = generalServices;
+            _albumService = albumService;
         }
 
         [HttpPost("CreateAlbum")]
-        public async Task<IActionResult> CreateAlbum([FromForm] string title)
+        public async Task<IActionResult> CreateAlbum([FromForm] CreateAlbumDto createAlbumDto)
         {
-            if (string.IsNullOrEmpty(title))
-                return BadRequest("Album title is required.");
-
-            var album = new Album
+            try
             {
-                Title = title,
-                Images = new List<Image>()
-            };
+                var albumDtoObj = await _albumService.CreateAlbumAsync(createAlbumDto);
 
-            await _albumRepository.AddAsync(album);
-            await _generalServices.SaveAsync();
-
-
-            var albumDto = new AlbumDto
-            {
-                Id = album.Id,
-                Title = album.Title,
-            };
-
-            return Ok(albumDto);
-        }
-
-        [HttpPost("AddImage")]
-        public async Task<IActionResult> AddImage(IFormFile file, [FromForm] string description, [FromForm] int albumId)
-        {
-            if (string.IsNullOrEmpty(description))
-                return BadRequest("Description is required.");
-            if (file == null || file.Length == 0)
-                return BadRequest("File is required.");
-            var album = await _albumRepository.GetByIdAsync(albumId);
-
-
-            if (album == null)
-            {
-                return NotFound("Album not found.");
+                // return CreatedAtAction(albumDtoObj.Title,new { id = albumDtoObj.Id },albumDtoObj);
+                return Ok(albumDtoObj);
             }
-
-            var path = await _fileService.SaveFileAsync(file, "Albums");
-
-            var image = new Image
+            catch (Exception ex)
             {
-                Path = path,
-                Description = description,
-                AlbumId = albumId
-            };
-
-            await _imageRepository.AddAsync(image);
-            album.Images.Add(image);
-            await _generalServices.SaveAsync();
-
-            var imageDto = new ImageDto
-            {
-                Id = image.Id,
-                Path = image.Path,
-                Description = image.Description
-            };
-
-            return Ok(imageDto);
-        }
-
-        [HttpDelete("DeleteAlbum/{id}")]
-        public async Task<IActionResult> DeleteAlbum(int id)
-        {
-            var album = await _albumRepository.GetByIdAsync(id);
-            if (album == null)
-                return NotFound("Album not found.");
-            _albumRepository.Remove(album);
-            await _generalServices.SaveAsync();
-
-            return Ok("Album deleted.");
-        }
-
-        [HttpGet("GetImage")]
-        public async Task<IActionResult> GetImage(int id)
-        {
-            var image = await _imageRepository.GetByIdAsync(id);
-
-            if (image == null)
-            {
-                return NotFound("Image not found.");
+                return StatusCode(500, "Internal server error.");
             }
-
-            return Ok(image);
         }
 
         [HttpGet("GetAlbum")]
-        public async Task<IActionResult> GetAlbum(int id)
+        public async Task<IActionResult> GetAlbum([FromQuery] GetAlbumDto albumDto)
         {
-            var album = await _albumRepository.GetAlbumByIdAsync(id);
-
-            if (album == null)
+            try
             {
-                return NotFound("Image not found.");
+                var albumDtoObj = await _albumService.GetAlbumByIdAsync(albumDto.Id);
+                return Ok(albumDtoObj);
             }
-
-            var albumDto = new AlbumDto()
+            catch (Exception ex)
             {
-                Id = album.Id,
-                Title = album.Title,
-                Images = album.Images.Select(i => new ImageDto
-                {
-                    Id = i.Id,
-                    Path = i.Path
-                }).ToList()
-            };
-            return Ok(albumDto);
+                return StatusCode(500, "Internal server error.");
+            }
+        }
+
+
+        [HttpDelete("DeleteAlbum/{deleteAlbumDto.Id}")]
+        public async Task<IActionResult> DeleteAlbum([FromRoute] GetAlbumDto deleteAlbumDto)
+        {
+            await _albumService.DeleteAlbumByIdAsync(deleteAlbumDto.Id);
+
+            return Ok(".آلبوم و عکس های موجود در آلبوم با موفقت حذف شد");
         }
     }
 }

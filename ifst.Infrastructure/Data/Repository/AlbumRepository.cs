@@ -20,8 +20,21 @@ namespace ifst.API.ifst.Infrastructure.Data.Repository
 
         public async Task<Album> GetAlbumByIdAsync(int id)
         {
-            return await _context.Albums
+            
+            var album = await _context.Albums
                 .Include(a => a.Images).FirstOrDefaultAsync(a => a.Id == id);
+            
+            if (album == null){throw new NotFoundException("Item not found.!!");}
+
+            return album;
+        }
+    }
+
+    public class NotFoundException : Exception
+    {
+        public NotFoundException(string message) : base(message)
+        {
+            // throw new NotImplementedException();
         }
     }
 }

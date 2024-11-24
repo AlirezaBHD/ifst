@@ -1,4 +1,6 @@
-﻿using ifst.API.ifst.Application.DTOs;
+﻿using System.Drawing;
+using AutoMapper;
+using ifst.API.ifst.Application.DTOs;
 using ifst.API.ifst.Application.Interfaces;
 using ifst.API.ifst.Application.Services;
 using ifst.API.ifst.Domain.Entities;
@@ -12,96 +14,68 @@ namespace ifst.API.ifst.API.Controllers
     [ApiController]
     public class PioneersController : ControllerBase
     {
+        private readonly IMapper _mapper;
+
         private readonly FileService _fileService;
         private readonly IPioneersRepository _repository;
         private readonly GeneralServices _generalServices;
 
-        public PioneersController(FileService fileService, GeneralServices generalServices,
+        public PioneersController(IMapper mapper, FileService fileService, GeneralServices generalServices,
             IPioneersRepository repository)
         {
+            _mapper = mapper;
+
             _fileService = fileService;
             _repository = repository;
             _generalServices = generalServices;
         }
 
         [HttpPost("AddPioneer")]
-        public async Task<IActionResult> AddPioneer([FromForm] string name, [FromForm] string cityOfBirth,
-            IFormFile file, [FromForm] string Projects_Description)
+        public async Task<IActionResult> AddPioneer([FromForm] AddPioneersDto pioneerDto)
         {
-            if (string.IsNullOrEmpty(name))
-                return BadRequest("Pioneer's Name is required.");
-            if (file == null || file.Length == 0)
-                return BadRequest("Pioneer's Image File is required.");
+            var path = await _fileService.SaveFileAsync(pioneerDto.File, "Pioneer");
 
-            var path = await _fileService.SaveFileAsync(file, "Pioneer");
+            var pioneer = _mapper.Map<Pioneers>(pioneerDto);
+            pioneer.ImagePath = path;
 
-            var pioneer = new Pioneers
-            {
-                Name = name,
-                CityOfBirth = cityOfBirth,
-                ImagePath = path,
-                ProjectsDescription = Projects_Description
-            };
             await _repository.AddAsync(pioneer);
             await _generalServices.SaveAsync();
 
-            var pioneerDto = new PioneersDto
-            {
-                Id = pioneer.Id,
-                Name = pioneer.Name,
-                CityOfBirth = pioneer.CityOfBirth,
-                ImagePath = pioneer.ImagePath,
-                Projects_Description = pioneer.ProjectsDescription
-            };
+            var pioneerDtoObj = _mapper.Map<PioneersDto>(pioneer);
 
-            return Ok(pioneerDto);
+            return Ok(pioneerDtoObj);
         }
+
+        [HttpGet("GetPioneer")]
+        public async Task<IActionResult> GetPioneer([FromQuery] GetPioneersDto getPioneerDto)
+        {
+            var pioneer = await _repository.GetByIdAsync(getPioneerDto.Id);
+            var pioneerDtoObj = _mapper.Map<PioneersDto>(pioneer);
+
+            return Ok(pioneerDtoObj);
+        }
+
 
         [HttpGet("GetAllPioneers")]
-        public async Task<IActionResult> GetAllPioneers(int page = 1, int pageSize = 10)
+        public async Task<IActionResult> GetAllPioneers([FromQuery] GetAllPioneersDto getPioneersDto)
         {
-            try
+            var totalPioneers = await _repository.GetAllAsync();
+            var totalCount = totalPioneers.Count();
+
+            var paginatedPioneers = await _repository.GetAllPaginated(null, pageNumber: getPioneersDto.Page,
+                pageSize: getPioneersDto.PageSize);
+            
+            var dtoResult = new PaginatedResult<PioneersDto>
             {
-                if (page <= 0 || pageSize <= 0)
-                {
-                    return BadRequest("Page and page size must be greater than zero.");
-                }
+                
+                Items = paginatedPioneers.Items.Select(p => _mapper.Map<PioneersDto>(p)).ToList(),
+                TotalCount = paginatedPioneers.TotalCount,
+                PageNumber = paginatedPioneers.PageNumber,
+                PageSize = paginatedPioneers.PageSize
+            };
 
-                var totalPioneers = await _repository.GetAllAsync();
-                var totalCount = totalPioneers.Count();
 
-                var paginatedPioneers = totalPioneers
-                    .Skip((page - 1) * pageSize)
-                    .Take(pageSize)
-                    .ToList();
-
-                if (!paginatedPioneers.Any())
-                {
-                    return NotFound("No pioneers found for the given page.");
-                }
-
-                return Ok(new
-                {
-                    TotalCount = totalCount,
-                    Page = page,
-                    PageSize = pageSize,
-                    Data = paginatedPioneers
-                });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-        
-        
-        [HttpGet("GetPioneer")]
-        public async Task<IActionResult> GetPioneer(int id)
-        {
-            var pioneer = await _repository.GetByIdAsync(id);
-            if (pioneer == null)
-                return NotFound("Pioneer not found.");
-            return Ok(pioneer);
+            return Ok(dtoResult);
         }
     }
 }

@@ -13,15 +13,13 @@ namespace ifst.API.ifst.API.Controllers
     [ApiController]
     public class ContactUsController : ControllerBase
     {
-        private readonly FileService _fileService;
         private readonly IContactUsRepository _repository;
         private readonly GeneralServices _generalServices;
 
 
-        public ContactUsController(FileService fileService, GeneralServices generalServices,
+        public ContactUsController(GeneralServices generalServices,
             IContactUsRepository repository)
         {
-            _fileService = fileService;
             _repository = repository;
             _generalServices = generalServices;
         }

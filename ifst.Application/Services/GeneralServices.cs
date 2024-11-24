@@ -1,8 +1,9 @@
-﻿using ifst.API.ifst.Infrastructure.Data;
+﻿using ifst.API.ifst.Application.Interfaces.ServiceInterfaces;
+using ifst.API.ifst.Infrastructure.Data;
 
 namespace ifst.API.ifst.Application.Services;
 
-public class GeneralServices
+public class GeneralServices : IGeneralServices
 {
     private readonly ApplicationDbContext _context;
 
