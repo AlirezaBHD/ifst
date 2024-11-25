@@ -26,7 +26,7 @@ public class ContactInformationService : IContactInformationService
 
     public async Task UpdateContactInformation(ContactInformationDto dto)
     {
-        var contactInfo = await _contactInformationRepository.GetByIdFirstOrDefaultAsync();
+        var contactInfo = await _contactInformationRepository.GetFirstOrDefaultAsync();
 
         if (contactInfo == null)
         {
