@@ -32,12 +32,6 @@ public class ContactInformationService : IContactInformationService
         }
         else
         {
-            // contactInfo.Phone = dto.Phone;
-            // contactInfo.Number = dto.Number;
-            // contactInfo.Email = dto.Email;
-            // contactInfo.Address = dto.Address;
-            // contactInfo.PostCode = dto.PostCode;
-            // contactInfo.Location = dto.Location;
             contactInfo = _mapper.Map(dto, contactInfo);
             _contactInformationRepository.Update(contactInfo);
         }
