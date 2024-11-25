@@ -1,5 +1,6 @@
 ﻿using ifst.API.ifst.Application.DTOs;
 using ifst.API.ifst.Application.Interfaces;
+using ifst.API.ifst.Application.Interfaces.ServiceInterfaces;
 using ifst.API.ifst.Application.Services;
 using ifst.API.ifst.Domain.Entities;
 using ifst.API.ifst.Infrastructure.Data.Repository;
@@ -11,54 +12,31 @@ namespace ifst.API.ifst.API.Controllers;
 [ApiController]
 public class ContactInformationController : ControllerBase
 {
-    private readonly IContactInformationRepository _repository;
+    private readonly IContactInformationRepository _contactInformationRepository;
     private readonly GeneralServices _generalServices;
+    private readonly IContactInformationService _contactInformationService;
+    
 
-    public ContactInformationController(IContactInformationRepository contactInformationRepository,
+    public ContactInformationController(IContactInformationService contactInformationService ,IContactInformationRepository contactInformationRepository,
         GeneralServices generalServices)
     {
-        _repository = contactInformationRepository;
+        _contactInformationRepository = contactInformationRepository;
         _generalServices = generalServices;
+        _contactInformationService = contactInformationService;
     }
     
 
     [HttpPut("UpdateContactInformation")]
     public async Task<IActionResult> UpdateContactInformation([FromBody] ContactInformationDto dto)
     {
-        var contactInfo = await _repository.GetByIdFirstOrDefaultAsync();
-
-        if (contactInfo == null)
-        {
-            contactInfo = new ContactInformation
-            {
-                Phone = dto.Phone,
-                Number = dto.Number,
-                Email = dto.Email,
-                Address = dto.Address,
-                PostCode = dto.PostCode,
-                Location = dto.Location,
-            };
-
-            await _repository.AddAsync(contactInfo);
-        }
-        else
-        {
-            contactInfo.Phone = dto.Phone;
-            contactInfo.Number = dto.Number;
-            contactInfo.Email = dto.Email;
-            contactInfo.Address = dto.Address;
-            contactInfo.PostCode = dto.PostCode;
-            contactInfo.Location = dto.Location;
-        }
-
-        await _generalServices.SaveAsync();
+        await _contactInformationService.UpdateContactInformation(dto);
         return Ok(dto);
     }
 
     [HttpGet("GetContactInformation")]
     public async Task<IActionResult> GetContactInformation()
     {
-        var contactInformation = await _repository.GetByIdFirstOrDefaultAsync();
+        var contactInformation = await _contactInformationRepository.GetByIdFirstOrDefaultAsync();
 
         return Ok(contactInformation);
     }
