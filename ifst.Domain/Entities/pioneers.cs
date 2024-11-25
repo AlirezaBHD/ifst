@@ -2,7 +2,7 @@
 using ifst.API.ifst.Domain.Common;
 
 namespace ifst.API.ifst.Domain.Entities;
-[DisplayName("خیرین")]
+[DisplayName("خییر")]
 public class Pioneers
 {
     public int Id { get; set; }
