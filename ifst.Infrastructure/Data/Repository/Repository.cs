@@ -28,10 +28,10 @@ namespace ifst.API.ifst.Infrastructure.Data.Repository
             return obj;
         }
 
-        public async Task<T> GetByIdFirstOrDefaultAsync()
+        public async Task<T> GetFirstOrDefaultAsync()
         {
             var obj = await _entities.FirstOrDefaultAsync();
-            obj.ThrowIfNull(_displayName);
+            // obj.ThrowIfNull(_displayName);
             return obj;
         }
 

@@ -6,7 +6,7 @@ namespace ifst.API.ifst.Application.Interfaces
     public interface IRepository<T> where T : class
     {
         Task<T> GetByIdAsync(int id);
-        Task<T> GetByIdFirstOrDefaultAsync();
+        Task<T> GetFirstOrDefaultAsync();
         Task<IEnumerable<T>> GetAllAsync();
         Task AddAsync(T entity);
         void Remove(T entity);
