@@ -13,7 +13,6 @@ public class PioneersService : IPioneersService
     private readonly FileService _fileService;
     private readonly IGeneralServices _generalServices;
     private readonly IPioneersRepository _pioneersRepository;
-    private readonly IImageRepository _imageRepository;
 
     public PioneersService(IPioneersRepository pioneersRepository, IMapper mapper,
         FileService fileService, IGeneralServices generalServices)
