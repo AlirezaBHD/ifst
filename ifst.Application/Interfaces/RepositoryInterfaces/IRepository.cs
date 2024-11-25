@@ -7,6 +7,8 @@ namespace ifst.API.ifst.Application.Interfaces
     {
         Task<T> GetByIdAsync(int id);
         Task<T> GetFirstOrDefaultAsync();
+
+        Task<T> GetFirstOrNullAsync();
         Task<IEnumerable<T>> GetAllAsync();
         Task AddAsync(T entity);
         void Remove(T entity);

@@ -31,7 +31,13 @@ namespace ifst.API.ifst.Infrastructure.Data.Repository
         public async Task<T> GetFirstOrDefaultAsync()
         {
             var obj = await _entities.FirstOrDefaultAsync();
-            // obj.ThrowIfNull(_displayName);
+            obj.ThrowIfNull(_displayName);
+            return obj;
+        }
+        
+        public async Task<T> GetFirstOrNullAsync()
+        {
+            var obj = await _entities.FirstOrDefaultAsync();
             return obj;
         }
 

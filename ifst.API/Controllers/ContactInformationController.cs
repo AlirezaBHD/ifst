@@ -13,15 +13,12 @@ namespace ifst.API.ifst.API.Controllers;
 public class ContactInformationController : ControllerBase
 {
     private readonly IContactInformationRepository _contactInformationRepository;
-    private readonly GeneralServices _generalServices;
     private readonly IContactInformationService _contactInformationService;
     
 
-    public ContactInformationController(IContactInformationService contactInformationService ,IContactInformationRepository contactInformationRepository,
-        GeneralServices generalServices)
+    public ContactInformationController(IContactInformationService contactInformationService ,IContactInformationRepository contactInformationRepository)
     {
         _contactInformationRepository = contactInformationRepository;
-        _generalServices = generalServices;
         _contactInformationService = contactInformationService;
     }
     

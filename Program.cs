@@ -38,6 +38,7 @@ builder.Services.AddScoped<INewsletterRepository, NewsletterRepository>();
 builder.Services.AddScoped<IGeneralServices,GeneralServices>();
 builder.Services.AddScoped<IAlbumService,AlbumService>();
 builder.Services.AddScoped<IPioneersService,PioneersService>();
+builder.Services.AddScoped<IImageService,ImageService>();
 builder.Services.AddScoped<IContactInformationService,ContactInformationService>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<CreateAlbumValidator>();

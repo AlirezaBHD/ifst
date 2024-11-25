@@ -10,46 +10,36 @@ namespace ifst.API.ifst.Application.Services;
 public class ContactInformationService : IContactInformationService
 {
     private readonly IMapper _mapper;
-    private readonly FileService _fileService;
     private readonly IGeneralServices _generalServices;
-    private readonly IPioneersRepository _pioneersRepository;
     private readonly IContactInformationRepository _contactInformationRepository;
 
-    public ContactInformationService(IPioneersRepository pioneersRepository, IMapper mapper,
-        FileService fileService, IGeneralServices generalServices)
+    public ContactInformationService(IMapper mapper, IGeneralServices generalServices,
+        IContactInformationRepository contactInformationRepository)
     {
-        _pioneersRepository = pioneersRepository;
         _mapper = mapper;
-        _fileService = fileService;
         _generalServices = generalServices;
+        _contactInformationRepository = contactInformationRepository;
     }
 
     public async Task UpdateContactInformation(ContactInformationDto dto)
     {
-        var contactInfo = await _contactInformationRepository.GetFirstOrDefaultAsync();
+        var contactInfo = await _contactInformationRepository.GetFirstOrNullAsync();
 
         if (contactInfo == null)
         {
-            contactInfo = new ContactInformation
-            {
-                Phone = dto.Phone,
-                Number = dto.Number,
-                Email = dto.Email,
-                Address = dto.Address,
-                PostCode = dto.PostCode,
-                Location = dto.Location,
-            };
-
+            contactInfo = _mapper.Map<ContactInformation>(dto);
             await _contactInformationRepository.AddAsync(contactInfo);
         }
         else
         {
-            contactInfo.Phone = dto.Phone;
-            contactInfo.Number = dto.Number;
-            contactInfo.Email = dto.Email;
-            contactInfo.Address = dto.Address;
-            contactInfo.PostCode = dto.PostCode;
-            contactInfo.Location = dto.Location;
+            // contactInfo.Phone = dto.Phone;
+            // contactInfo.Number = dto.Number;
+            // contactInfo.Email = dto.Email;
+            // contactInfo.Address = dto.Address;
+            // contactInfo.PostCode = dto.PostCode;
+            // contactInfo.Location = dto.Location;
+            contactInfo = _mapper.Map(dto, contactInfo);
+            _contactInformationRepository.Update(contactInfo);
         }
 
         await _generalServices.SaveAsync();
