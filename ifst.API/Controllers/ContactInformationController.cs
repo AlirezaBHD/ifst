@@ -36,7 +36,7 @@ public class ContactInformationController : ControllerBase
     [HttpGet("GetContactInformation")]
     public async Task<IActionResult> GetContactInformation()
     {
-        var contactInformation = await _contactInformationRepository.GetByIdFirstOrDefaultAsync();
+        var contactInformation = await _contactInformationRepository.GetFirstOrDefaultAsync();
 
         return Ok(contactInformation);
     }
