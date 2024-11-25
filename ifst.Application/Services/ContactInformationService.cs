@@ -38,4 +38,11 @@ public class ContactInformationService : IContactInformationService
 
         await _generalServices.SaveAsync();
     }
+
+    public async Task<ContactInformationDto> GetContactInformation()
+    {
+        var contactInformation = await _contactInformationRepository.GetFirstOrDefaultAsync();
+        var contactInformationDto =  _mapper.Map<ContactInformationDto>(contactInformation);
+        return contactInformationDto;
+    }
 }

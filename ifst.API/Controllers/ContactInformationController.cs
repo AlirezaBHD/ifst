@@ -1,9 +1,5 @@
 ﻿using ifst.API.ifst.Application.DTOs;
-using ifst.API.ifst.Application.Interfaces;
 using ifst.API.ifst.Application.Interfaces.ServiceInterfaces;
-using ifst.API.ifst.Application.Services;
-using ifst.API.ifst.Domain.Entities;
-using ifst.API.ifst.Infrastructure.Data.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ifst.API.ifst.API.Controllers;
@@ -12,16 +8,14 @@ namespace ifst.API.ifst.API.Controllers;
 [ApiController]
 public class ContactInformationController : ControllerBase
 {
-    private readonly IContactInformationRepository _contactInformationRepository;
     private readonly IContactInformationService _contactInformationService;
-    
 
-    public ContactInformationController(IContactInformationService contactInformationService ,IContactInformationRepository contactInformationRepository)
+
+    public ContactInformationController(IContactInformationService contactInformationService)
     {
-        _contactInformationRepository = contactInformationRepository;
         _contactInformationService = contactInformationService;
     }
-    
+
 
     [HttpPut("UpdateContactInformation")]
     public async Task<IActionResult> UpdateContactInformation([FromBody] ContactInformationDto dto)
@@ -33,8 +27,7 @@ public class ContactInformationController : ControllerBase
     [HttpGet("GetContactInformation")]
     public async Task<IActionResult> GetContactInformation()
     {
-        var contactInformation = await _contactInformationRepository.GetFirstOrDefaultAsync();
-
+        var contactInformation = await _contactInformationService.GetContactInformation();
         return Ok(contactInformation);
     }
 }
