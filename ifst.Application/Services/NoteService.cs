@@ -32,4 +32,11 @@ public class NoteService: INoteService
         await _generalServices.SaveAsync();
     }
 
+    public async Task<NoteDto> GetNote(GetObjectByIdDto noteDto)
+    {
+        var note = await _noteRepository.GetByIdAsync(noteDto.Id);
+        var noteDtoObj = _mapper.Map<NoteDto>(note);
+        return noteDtoObj;
+    }
+
 }
