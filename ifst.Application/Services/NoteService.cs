@@ -36,10 +36,10 @@ public class NoteService : INoteService
         return noteObjDto;
     }
 
-    public async Task<NoteDto> GetNote(GetObjectByIdDto noteDto)
+    public async Task<NoteCompleteDto> GetNote(GetObjectByIdDto noteDto)
     {
         var note = await _noteRepository.GetByIdAsync(noteDto.Id);
-        var noteDtoObj = _mapper.Map<NoteDto>(note);
+        var noteDtoObj = _mapper.Map<NoteCompleteDto>(note);
         return noteDtoObj;
     }
 

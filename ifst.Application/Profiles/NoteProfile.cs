@@ -11,5 +11,6 @@ public class NoteProfile: Profile
         CreateMap<AddNoteDto, Note>();
         CreateMap<Note, NoteDto>();
         CreateMap<Note, listedNoteDto>();
+        CreateMap<Note, NoteCompleteDto>();
     }
 }

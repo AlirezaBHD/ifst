@@ -7,7 +7,7 @@ public interface INoteService
 {
     Task<NoteDto> AddNote(AddNoteDto noteDto);
 
-    Task<NoteDto> GetNote(GetObjectByIdDto noteDto);
+    Task<NoteCompleteDto> GetNote(GetObjectByIdDto noteDto);
     Task DeleteNote(GetObjectByIdDto noteDto);
 
     Task<PaginatedResult<listedNoteDto>> GetNewslettersAsync(FilterAndSortPaginatedOptions options);

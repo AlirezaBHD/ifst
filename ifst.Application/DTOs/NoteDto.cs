@@ -33,3 +33,13 @@ public class listedNoteDto
     
     public string Summery { get; set; }
 }
+
+
+public class NoteCompleteDto
+{
+    public string Title { get; set; }
+    
+    public string ImagePath { get; set; }
+    
+    public string Body { get; set; }
+}
