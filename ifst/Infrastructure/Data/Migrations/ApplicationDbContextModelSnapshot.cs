@@ -167,6 +167,10 @@ namespace ifst.API.ifst.Infrastructure.Data.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Summery")
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
