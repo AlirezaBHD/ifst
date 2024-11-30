@@ -29,3 +29,11 @@ public class GetAllPioneersDto
     [DefaultValue(1)] public int Page { get; set; }
     [DefaultValue(10)] public int PageSize { get; set; }
 }
+
+public class UpdatePioneerDto
+{
+    public string Name { get; set; }
+    public string CityOfBirth { get; set; }
+    public IFormFile? File { get; set; }
+    public string ProjectsDescription { get; set; }
+}

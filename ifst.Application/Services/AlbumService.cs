@@ -43,4 +43,13 @@ public class AlbumService : IAlbumService
         _albumRepository.Remove(album);
         await _generalServices.SaveAsync();
     }
+
+    public async Task UpdateAlbum(EditAlbumDto albumDto)
+    {
+        var album = await _albumRepository.GetByIdAsync(albumDto.Id);
+        album.Title = albumDto.Title;
+        _albumRepository.Update(album);
+        await _generalServices.SaveAsync();
+    }
+
 }

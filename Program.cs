@@ -11,6 +11,7 @@ using ifst.API.ifst.Domain.Entities;
 using ifst.API.ifst.Infrastructure.Data;
 using ifst.API.ifst.Infrastructure.Data.Repository;
 using ifst.API.ifst.Infrastructure.FileManagement;
+using JsonPatchSample;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,6 +41,8 @@ builder.Services.AddScoped<IAlbumService,AlbumService>();
 builder.Services.AddScoped<IPioneersService,PioneersService>();
 builder.Services.AddScoped<IImageService,ImageService>();
 builder.Services.AddScoped<IContactInformationService,ContactInformationService>();
+builder.Services.AddScoped<IContactUsService,ContactUsService>();
+builder.Services.AddScoped<INewsletterService,NewsletterService>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<CreateAlbumValidator>();
 builder.Services.AddFluentValidationAutoValidation();

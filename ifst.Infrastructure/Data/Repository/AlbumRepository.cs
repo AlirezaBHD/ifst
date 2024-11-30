@@ -1,4 +1,5 @@
-﻿using ifst.API.ifst.Application.Interfaces;
+﻿using ifst.API.ifst.Application.Exceptions;
+using ifst.API.ifst.Application.Interfaces;
 using ifst.API.ifst.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,7 +25,8 @@ namespace ifst.API.ifst.Infrastructure.Data.Repository
             var album = await _context.Albums
                 .Include(a => a.Images).FirstOrDefaultAsync(a => a.Id == id);
             
-            if (album == null){throw new NotFoundException("Item not found.!!");}
+            // if (album == null){throw new NotFoundException("Item not found.!!");}
+            album.ThrowIfNull("آلبوم");
 
             return album;
         }

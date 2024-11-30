@@ -72,4 +72,25 @@ public class PioneersService : IPioneersService
         _pioneersRepository.Remove(pioneer);
         await _generalServices.SaveAsync();
     }
+
+    public async Task<PioneersDto> UpdateNewsletterAsync(int id, UpdatePioneerDto pioneerDto)
+    {
+        var obj = await _pioneersRepository.GetByIdAsync(id);
+
+
+        var updatedPioneer = _mapper.Map(pioneerDto, obj);
+        if (pioneerDto.File != null)
+        {
+            var imagePath = await _fileService.SaveFileAsync(pioneerDto.File, "Newsletter");
+            updatedPioneer.ImagePath = imagePath;
+        }
+
+        var updatedPioneerDto = _mapper.Map<PioneersDto>(updatedPioneer);
+        
+
+        _pioneersRepository.Update(updatedPioneer);
+        await _generalServices.SaveAsync();
+        return updatedPioneerDto;
+    }
+
 }

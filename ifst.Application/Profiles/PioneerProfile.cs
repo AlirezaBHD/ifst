@@ -11,5 +11,6 @@ public class PioneerProfile: Profile
         CreateMap<GetPioneersDto,Pioneers >();
         CreateMap<AddPioneersDto,Pioneers >();
         CreateMap<Pioneers, PioneersDto>();
+        CreateMap<UpdatePioneerDto, Pioneers>();
     }
 }

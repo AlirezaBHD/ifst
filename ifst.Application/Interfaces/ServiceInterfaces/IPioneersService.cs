@@ -9,5 +9,8 @@ public interface IPioneersService
 
     Task<PaginatedResult<PioneersDto>> GetAllPioneersAsync(GetAllPioneersDto getPioneersDto);
     Task RemovePioneerAsync(GetPioneersDto pioneers);
+    
+    Task<PioneersDto> UpdateNewsletterAsync(int id, UpdatePioneerDto newsletterDto);
+
 
 }

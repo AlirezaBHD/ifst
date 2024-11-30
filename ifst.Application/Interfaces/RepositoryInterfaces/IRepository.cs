@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using ifst.API.ifst.Application.DTOs;
+using ifst.API.ifst.Application.Extensions;
 
 namespace ifst.API.ifst.Application.Interfaces
 {
@@ -19,5 +20,8 @@ namespace ifst.API.ifst.Application.Interfaces
             Expression<Func<T, bool>>? predicate,
             int pageNumber,
             int pageSize);
+
+        Task<PaginatedResult<T>> GetFilteredAndSortedPaginated(
+            FilterAndSortPaginatedOptions options);
     }
 }

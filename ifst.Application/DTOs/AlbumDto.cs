@@ -22,3 +22,9 @@ public class AlbumDto
     public List<ImageDto> Images { get; set; }
 }
 
+public class EditAlbumDto
+{
+    public int Id { get; set; }
+    public string Title { get; set; }
+}
+

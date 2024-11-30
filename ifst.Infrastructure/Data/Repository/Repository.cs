@@ -1,8 +1,11 @@
 ﻿using System.Linq.Expressions;
+using FluentValidation;
+using FluentValidation.Results;
 using ifst.API.ifst.Application.DTOs;
 using Microsoft.EntityFrameworkCore;
 using ifst.API.ifst.Application.Interfaces;
 using ifst.API.ifst.Application.Exceptions;
+using ifst.API.ifst.Application.Extensions;
 using ifst.API.ifst.Domain.Common;
 
 
@@ -90,5 +93,80 @@ namespace ifst.API.ifst.Infrastructure.Data.Repository
             };
             
         }
+        
+         public async Task<PaginatedResult<T>> GetFilteredAndSortedPaginated(
+            FilterAndSortPaginatedOptions options)
+        {
+            
+            var filterCriteria = new DynamicFilterCriteria<T>();
+            foreach (var filter in options.Filters)
+            {
+                if (typeof(T).GetProperty(filter.Key) == null)
+                {
+                    var errors = new List<ValidationFailure>
+                    {
+                        new ValidationFailure("Invalid Keyword","کلید مورد نظر یافت نشد")
+                    };
+            
+                    throw new ValidationException("Validation Error", errors);
+                }
+                    
+                if (!string.IsNullOrWhiteSpace(filter.Value))
+                {
+                    filterCriteria.AddFilter(filter.Key, filter.Value!);
+                }
+            }
+                
+            var predicate = filterCriteria.GeneratePredicate();
+            var query = _entities.AsQueryable();
+
+            // بررسی فیلترها
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+
+            // sortBy Validation
+            if (!string.IsNullOrWhiteSpace(options.SortBy))
+            {
+                var propertyInfo = typeof(T).GetProperty(options.SortBy);
+                if (propertyInfo == null)
+                {
+                    // اگر فیلد وجود ندارد، می‌توان یک پیام خطا به کاربر برگرداند
+                    var errors = new List<ValidationFailure>
+                    {
+                        // new ValidationFailure("Invalid Keyword",$"در {_displayName} پراپرتی {options.SortBy}.وجود ندارد"),
+                        new ValidationFailure("Invalid Keyword", $"Invalid Keyword '{options.SortBy}' for {typeof(T).Name} ")
+                    };
+
+                    throw new ValidationException("Validation Error", errors);
+
+                }
+
+                var parameter = Expression.Parameter(typeof(T), "x");
+                var property = Expression.PropertyOrField(parameter, options.SortBy);
+                var lambda = Expression.Lambda(property, parameter);
+
+                var methodName = options.IsDescending ? "OrderByDescending" : "OrderBy";
+                var orderByMethod = typeof(Queryable).GetMethods()
+                    .First(m => m.Name == methodName && m.GetParameters().Length == 2)
+                    .MakeGenericMethod(typeof(T), property.Type);
+
+                query = (IQueryable<T>)orderByMethod.Invoke(null, new object[] { query, lambda })!;
+            }
+
+            // Pagination
+            var totalCount = await query.CountAsync();
+            var items = await query.Skip((options.PageNumber - 1) * options.PageSize).Take(options.PageSize).ToListAsync();
+
+            return new PaginatedResult<T>
+            {
+                Items = items,
+                TotalCount = totalCount,
+                PageNumber = options.PageNumber,
+                PageSize = options.PageSize,
+            };
+        }
+
     }
 }

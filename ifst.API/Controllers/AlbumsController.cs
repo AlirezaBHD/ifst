@@ -46,5 +46,12 @@ namespace ifst.API.ifst.API.Controllers
 
             return Ok(".آلبوم و عکس های موجود در آلبوم با موفقت حذف شد");
         }
+
+        [HttpPut("EditAlbum")]
+        public async Task<IActionResult> EditAlbum([FromForm] EditAlbumDto albumDto)
+        {
+            await _albumService.UpdateAlbum(albumDto);
+            return Ok(".آلبوم با موفقیت ویرایش داده شد");
+        }
     }
 }

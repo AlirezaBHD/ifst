@@ -1,5 +1,10 @@
-﻿using ifst.API.ifst.Application.DTOs;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using ifst.API.ifst.Application.DTOs;
+using ifst.API.ifst.Application.Exceptions;
+using ifst.API.ifst.Application.Extensions;
 using ifst.API.ifst.Application.Interfaces;
+using ifst.API.ifst.Application.Interfaces.ServiceInterfaces;
 using ifst.API.ifst.Application.Services;
 using ifst.API.ifst.Domain.Entities;
 using ifst.API.ifst.Infrastructure.Data.Repository;
@@ -13,79 +18,42 @@ namespace ifst.API.ifst.API.Controllers
     [ApiController]
     public class ContactUsController : ControllerBase
     {
+        private readonly IContactUsService _contactUsService;
         private readonly IContactUsRepository _repository;
-        private readonly GeneralServices _generalServices;
+        private readonly IGeneralServices _generalServices;
 
 
-        public ContactUsController(GeneralServices generalServices,
-            IContactUsRepository repository)
+        public ContactUsController(IGeneralServices generalServices,
+            IContactUsRepository repository, IContactUsService contactUsService)
         {
             _repository = repository;
             _generalServices = generalServices;
+            _contactUsService = contactUsService;
+        }
+
+
+        [HttpGet("GetContactUs")]
+        public async Task<IActionResult> GetContactUsAsync([FromQuery] GetObjectByIdDto getObjectDto)
+        {
+            var ContactUsObj = await _contactUsService.GetContactUsByIdAsync(getObjectDto);
+            return Ok(ContactUsObj);
         }
 
         [HttpPost("SubmitContactUs")]
-        public async Task<IActionResult> SubmitContactUs([FromForm] string FullName, [FromForm] string Email,
-            [FromForm] string Subject, [FromForm] string Body)
+
+        public async Task<IActionResult> SubmitContactUs([FromForm] ContactUsDto contactUsDto)
         {
-            var contactObj = new ContactUs
-            {
-                FullName = FullName,
-                Email = Email,
-                Subject = Subject,
-                Body = Body
-            };
-
-            await _repository.AddAsync(contactObj);
-            await _generalServices.SaveAsync();
-
-            var contactDtoObj = new ContactUsDto
-            {
-                Id = contactObj.Id,
-                FullName = contactObj.FullName,
-                Email = contactObj.Email,
-                Body = contactObj.Body,
-                Date = contactObj.Date,
-            };
-
-            return Ok(contactDtoObj);
+            await _contactUsService.AddContactUsAsync(contactUsDto);
+            return Ok("پیام شما ارسال شد");
         }
 
         [HttpGet("ListContactUs")]
-        public async Task<IActionResult> ListContactUs(int page =1,int pageSize = 10)
+        public async Task<IActionResult> ListContactUs([FromQuery] FilterAndSortPaginatedOptions options)
         {
-            try
-            {
-                if (page <= 0 || pageSize <= 0)
-                {
-                    return BadRequest("Page and page size must be greater than zero.");
-                }
 
-                var totalPioneers = await _repository.GetAllAsync();
-                var totalCount = totalPioneers.Count();
+            var result = await _contactUsService.FilteredPaginatedContactUsList(options);
 
-                var paginatedPioneers = totalPioneers
-                    .Skip((page - 1) * pageSize)
-                    .Take(pageSize)
-                    .ToList();
-
-                if (!paginatedPioneers.Any())
-                {
-                    return NotFound("No pioneers found for the given page.");
-                }
-
-                return Ok(new
-                {
-                    TotalCount = totalCount,
-                    Page = page,
-                    PageSize = pageSize,
-                    Data = paginatedPioneers
-                });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            return Ok(result);
         }
     }
 }

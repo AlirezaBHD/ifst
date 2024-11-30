@@ -52,5 +52,14 @@ namespace ifst.API.ifst.API.Controllers
             await _pioneersService.RemovePioneerAsync(getPioneerDto);
             return Ok("Pioneer Has Been Deleted");
         }
+
+        [HttpPut("UpdatePioneer/{getPioneerDto.Id}")]
+        public async Task<IActionResult> UpdatePioneer([FromRoute] GetPioneersDto getPioneerDto , [FromForm] UpdatePioneerDto pioneerDto)
+        {
+            
+            var result = await _pioneersService.UpdateNewsletterAsync(getPioneerDto.Id, pioneerDto);
+            
+            return Ok(result);
+        }
     }
 }

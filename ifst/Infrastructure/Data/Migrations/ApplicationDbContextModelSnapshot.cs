@@ -62,8 +62,8 @@ namespace ifst.API.ifst.Infrastructure.Data.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PostCode")
-                        .HasColumnType("int");
+                    b.Property<string>("PostCode")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
