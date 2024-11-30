@@ -50,13 +50,13 @@ public class NoteService : INoteService
         await _generalServices.SaveAsync();
     }
 
-    public async Task<PaginatedResult<listedNoteDto>> GetNewslettersAsync(FilterAndSortPaginatedOptions options)
+    public async Task<PaginatedResult<ListedNoteDto>> GetNewslettersAsync(FilterAndSortPaginatedOptions options)
     {
         var paginatedResult = await _noteRepository.GetFilteredAndSortedPaginated(options);
-        var mappedItems =_mapper.Map<IEnumerable<Note>, IEnumerable<listedNoteDto>>(paginatedResult.Items);
+        var mappedItems =_mapper.Map<IEnumerable<Note>, IEnumerable<ListedNoteDto>>(paginatedResult.Items);
         
         
-        var result = new PaginatedResult<listedNoteDto>
+        var result = new PaginatedResult<ListedNoteDto>
         {
             Items = mappedItems,
             TotalCount = paginatedResult.TotalCount,

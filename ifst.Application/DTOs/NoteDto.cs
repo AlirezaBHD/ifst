@@ -25,8 +25,10 @@ public class AddNoteDto
     public string Body { get; set; }
 }
 
-public class listedNoteDto
+public class ListedNoteDto
 {
+    public int Id { get; set; }
+
     public string Title { get; set; }
     
     public string ImagePath { get; set; }

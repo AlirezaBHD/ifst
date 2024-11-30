@@ -10,6 +10,6 @@ public interface INoteService
     Task<NoteCompleteDto> GetNote(GetObjectByIdDto noteDto);
     Task DeleteNote(GetObjectByIdDto noteDto);
 
-    Task<PaginatedResult<listedNoteDto>> GetNewslettersAsync(FilterAndSortPaginatedOptions options);
+    Task<PaginatedResult<ListedNoteDto>> GetNewslettersAsync(FilterAndSortPaginatedOptions options);
 
 }
