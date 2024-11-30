@@ -61,6 +61,7 @@ public class ApplicationDbContext : DbContext
         {
             entity.HasKey(n => n.Id);
             entity.Property(n => n.Title);
+            entity.Property(n => n.ImagePath);
             entity.Property(n => n.Summery);
             entity.Property(n => n.Body);
             entity.Property(n => n.Date);
