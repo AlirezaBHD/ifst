@@ -23,13 +23,15 @@ public class NoteService: INoteService
         _fileService = fileService;
     }
 
-    public async Task AddNote(AddNoteDto noteDto)
+    public async Task<NoteDto> AddNote(AddNoteDto noteDto)
     {
         var note = _mapper.Map<Note>(noteDto);
         var image = await _fileService.SaveFileAsync(noteDto.Image, "Note");
         note.ImagePath = image;
         await _noteRepository.AddAsync(note);
         await _generalServices.SaveAsync();
+        var noteObjDto = _mapper.Map<NoteDto>(note);
+        return noteObjDto;
     }
 
     public async Task<NoteDto> GetNote(GetObjectByIdDto noteDto)
@@ -37,6 +39,13 @@ public class NoteService: INoteService
         var note = await _noteRepository.GetByIdAsync(noteDto.Id);
         var noteDtoObj = _mapper.Map<NoteDto>(note);
         return noteDtoObj;
+    }
+
+    public async Task DeleteNote(GetObjectByIdDto noteDto)
+    {
+        var note = await _noteRepository.GetByIdAsync(noteDto.Id);
+        _noteRepository.Remove(note);
+        await _generalServices.SaveAsync();
     }
 
 }

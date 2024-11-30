@@ -15,14 +15,25 @@ public class NoteController: ControllerBase
     {
         _noteService = noteService;
     }
-    
-    // [HttpGet]
+
+    [HttpGet("GetNote/{noteDto.Id}")]
+    public async Task<IActionResult> GetNote([FromRoute] GetObjectByIdDto noteDto)
+    {
+        var noteObjDto = await _noteService.GetNote(noteDto);
+        return Ok(noteObjDto);
+    }
 
     [HttpPost("AddNote")]
-    public async Task<IActionResult> AddNote(AddNoteDto noteDto)
+    public async Task<IActionResult> AddNote([FromForm] AddNoteDto noteDto)
     {
-        await _noteService.AddNote(noteDto);
-        // return Created()
-        return Ok(".یاداشت افزوده شد");
+        var noteObjDto = await _noteService.AddNote(noteDto);
+        return Created("GetNote", noteObjDto);
+    }
+
+    [HttpDelete("DeleteNote/{noteDto.Id}")]
+    public async Task<IActionResult> DeleteNote([FromRoute] GetObjectByIdDto noteDto)
+    {
+        await _noteService.DeleteNote(noteDto);
+        return Ok(".یاداشت با موفقیت حذف شد");
     }
 }
