@@ -1,4 +1,5 @@
 ﻿using ifst.API.ifst.Application.DTOs;
+using ifst.API.ifst.Application.Extensions;
 using ifst.API.ifst.Application.Interfaces.ServiceInterfaces;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -35,5 +36,12 @@ public class NoteController: ControllerBase
     {
         await _noteService.DeleteNote(noteDto);
         return Ok(".یاداشت با موفقیت حذف شد");
+    }
+
+    [HttpGet("GetAllNotes")]
+    public async Task<IActionResult> GetAllNotes([FromQuery] FilterAndSortPaginatedOptions options)
+    {
+        var result = await _noteService.GetNewslettersAsync(options);
+        return Ok(result);
     }
 }
