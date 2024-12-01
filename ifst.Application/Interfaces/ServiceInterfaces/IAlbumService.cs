@@ -1,4 +1,5 @@
 ﻿using ifst.API.ifst.Application.DTOs;
+using ifst.API.ifst.Application.Extensions;
 
 namespace ifst.API.ifst.Application.Interfaces.ServiceInterfaces;
 
@@ -11,4 +12,6 @@ public interface IAlbumService
     Task DeleteAlbumByIdAsync(int id);
 
     Task UpdateAlbum(EditAlbumDto albumDto);
+    Task<PaginatedResult<ListedAlbumsDto>> GetAlbumsAsync(FilterAndSortPaginatedOptions options);
+
 }

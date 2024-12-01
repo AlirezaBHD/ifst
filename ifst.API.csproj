@@ -24,7 +24,6 @@
     <ItemGroup>
       <Folder Include="ifst.API\Filters\" />
       <Folder Include="ifst.Domain\Interfaces\" />
-      <Folder Include="ifst.Domain\ValueObjects\" />
       <Folder Include="ifst.Infrastructure\Data\Migrations\" />
       <Folder Include="ifst.Infrastructure\Email\" />
       <Folder Include="ifst.Tests\" />

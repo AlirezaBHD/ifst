@@ -1,5 +1,7 @@
 ﻿using ifst.API.ifst.Domain.Entities;
+using JsonPatchSample.ifst.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace ifst.API.ifst.Infrastructure.Data;
 
@@ -16,6 +18,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<ContactUs> ContactUs { get; set; }
     public DbSet<ContactInformation> ContactInformation { get; set; }
     public DbSet<Newsletter> Newsletter { get; set; }
+    public DbSet<Institute> Institute { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -66,6 +69,20 @@ public class ApplicationDbContext : DbContext
             entity.Property(n => n.Body);
             entity.Property(n => n.Date);
         });
+        
+        modelBuilder.Entity<Institute>()
+            .Property(r => r.RequesterNationalId)
+            .HasConversion(
+                v => v.Value, 
+                v => new NationalCode(v));
+        modelBuilder.Entity<Institute>()
+            .Property(r => r.RequesterEmail)
+            .HasConversion(
+                v => v.Value, 
+                v => new Email(v));
+        
+            
+            
         
     }
 }
