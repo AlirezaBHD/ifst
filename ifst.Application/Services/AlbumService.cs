@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ifst.API.ifst.Application.DTOs;
+using ifst.API.ifst.Application.Extensions;
 using ifst.API.ifst.Application.Interfaces;
 using ifst.API.ifst.Application.Interfaces.ServiceInterfaces;
 using ifst.API.ifst.Domain.Entities;
@@ -51,5 +52,22 @@ public class AlbumService : IAlbumService
         _albumRepository.Update(album);
         await _generalServices.SaveAsync();
     }
+
+    public async Task<PaginatedResult<ListedAlbumsDto>> GetAlbumsAsync(FilterAndSortPaginatedOptions options)
+    {
+        var paginatedResult = await _albumRepository.GetFilteredAndSortedPaginated(options);
+        var mappedItems =_mapper.Map<IEnumerable<Album>, IEnumerable<ListedAlbumsDto>>(paginatedResult.Items);
+        
+        var result = new PaginatedResult<ListedAlbumsDto>
+        {
+            Items = mappedItems,
+            TotalCount = paginatedResult.TotalCount,
+            PageNumber = paginatedResult.PageNumber,
+            PageSize = paginatedResult.PageSize,
+        };
+        return result;
+
+    }
+
 
 }

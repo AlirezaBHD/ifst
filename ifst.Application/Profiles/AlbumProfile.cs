@@ -11,5 +11,6 @@ public class AlbumProfile : Profile
         CreateMap<CreateAlbumDto,Album >();
         CreateMap<GetAlbumDto,Album >();
         CreateMap<Album, AlbumDto>();
+        CreateMap<Album, ListedAlbumsDto>();
     }
 }

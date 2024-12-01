@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using AutoMapper;
 using ifst.API.ifst.Application.DTOs;
+using ifst.API.ifst.Application.Extensions;
 using ifst.API.ifst.Application.Interfaces;
 using ifst.API.ifst.Application.Interfaces.ServiceInterfaces;
 using ifst.API.ifst.Domain.Entities;
@@ -52,6 +53,13 @@ namespace ifst.API.ifst.API.Controllers
         {
             await _albumService.UpdateAlbum(albumDto);
             return Ok(".آلبوم با موفقیت ویرایش داده شد");
+        }
+        
+        [HttpGet("GetAllAlbums")]
+        public async Task<IActionResult> GetAllAlbums([FromQuery] FilterAndSortPaginatedOptions options)
+        {
+            var result = await _albumService.GetAlbumsAsync(options);
+            return Ok(result);
         }
     }
 }
