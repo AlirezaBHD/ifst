@@ -1,7 +1,5 @@
 ﻿using ifst.API.ifst.Domain.Entities;
-using JsonPatchSample.ifst.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace ifst.API.ifst.Infrastructure.Data;
 
@@ -69,20 +67,6 @@ public class ApplicationDbContext : DbContext
             entity.Property(n => n.Body);
             entity.Property(n => n.Date);
         });
-        
-        modelBuilder.Entity<Institute>()
-            .Property(r => r.RequesterNationalId)
-            .HasConversion(
-                v => v.Value, 
-                v => new NationalCode(v));
-        modelBuilder.Entity<Institute>()
-            .Property(r => r.RequesterEmail)
-            .HasConversion(
-                v => v.Value, 
-                v => new Email(v));
-        
-            
-            
         
     }
 }

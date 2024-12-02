@@ -9,7 +9,6 @@ public class ImageProfile: Profile
     public ImageProfile()
     {
         CreateMap<AddImageDto,Image >();
-        // CreateMap<GetImageDto,Image >();
         CreateMap<Image, ImageDto>();
     }
 }

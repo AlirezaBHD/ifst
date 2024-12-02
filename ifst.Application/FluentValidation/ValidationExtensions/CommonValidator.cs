@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using ifst.API.ifst.Domain.ValueObjects;
 
 namespace ifst.API.ifst.Application.FluentValidation.ValidationExtensions;
 
@@ -22,6 +23,29 @@ public static class CommonValidator
         return builder;
     }
 
+    public static IRuleBuilderOptions<T, string> EmailRules<T>(
+        this IRuleBuilder<T, string> ruleBuilder)
+    {
+        var builder = ruleBuilder
+            .NotNull().WithMessage(".نشانی پست الکرونیک الزامی است")
+            .NotEmpty().WithMessage(".نشانی پست الکرونیک نباید خالی باشد")
+            .Must(Email.IsValidEmail).WithMessage(".نشانی پست الکرونیک معتبر نیست");
+
+        return builder;
+    }
+
+    public static IRuleBuilderOptions<T, string> NationalCodeRules<T>(
+        this IRuleBuilder<T, string> ruleBuilder)
+    {
+        var builder = ruleBuilder
+            .NotNull().WithMessage(".کد ملی الزامی است")
+            .NotEmpty().WithMessage(".کد ملی نباید خالی باشد")
+            .Must(NationalCode.IsValidNationalCode).WithMessage(".کد ملی معتبر نیست");
+
+        return builder;
+    }
+
+
     public static IRuleBuilderOptions<T, string> CommonStringRules<T>(
         this IRuleBuilder<T, string> ruleBuilder,
         int minLength,
@@ -33,6 +57,16 @@ public static class CommonValidator
             .Length(minLength, maxLength)
             .WithMessage($"{fieldName} باید بین {minLength} تا {maxLength} کاراکتر باشد.");
     }
+    
+    public static IRuleBuilderOptions<T, string> CommonTHMLRules<T>(
+        this IRuleBuilder<T, string> ruleBuilder,
+        string fieldName)
+    {
+        return ruleBuilder
+            .NotNull().WithMessage($".{fieldName} الزامی است")
+            .NotEmpty().WithMessage($".{fieldName} نباید خالی باشد");
+    }
+
 
     public static IRuleBuilderOptions<T, int> CommonIntRules<T>(
         this IRuleBuilder<T, int> ruleBuilder,

@@ -37,6 +37,7 @@ builder.Services.AddScoped<IContactUsRepository, ContactUsRepository>();
 builder.Services.AddScoped<IContactInformationRepository, ContactInformationRepository>();
 builder.Services.AddScoped<INewsletterRepository, NewsletterRepository>();
 builder.Services.AddScoped<INoteRepository, NoteRepository>();
+builder.Services.AddScoped<IInstituteRepository, InstituteRepository>();
 //
 builder.Services.AddScoped<IGeneralServices,GeneralServices>();
 builder.Services.AddScoped<IAlbumService,AlbumService>();
@@ -46,6 +47,7 @@ builder.Services.AddScoped<IContactInformationService,ContactInformationService>
 builder.Services.AddScoped<IContactUsService,ContactUsService>();
 builder.Services.AddScoped<INewsletterService,NewsletterService>();
 builder.Services.AddScoped<INoteService,NoteService>();
+builder.Services.AddScoped<IInstituteService,InstituteService>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<CreateAlbumValidator>();
 builder.Services.AddFluentValidationAutoValidation();
@@ -65,6 +67,7 @@ var app = builder.Build();
 
 //Middleware
 app.UseMiddleware<ValidationMiddleware>();
+app.UseMiddleware<ValidationExceptionMiddleware>();
 
 
 //For Swagger Dark Theme
