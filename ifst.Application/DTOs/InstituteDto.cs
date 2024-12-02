@@ -7,11 +7,9 @@ public class InstituteDto
 {
     public string Id { get; set; }
     public string Name { get; set; }
-    public string RequesterFullName { get; set; }
-    public string? RequesterEmail { get; set; }
-    public string RequesterNationalId { get; set; }
     public string ImagesPath { get; set; }
     public string Description { get; set; }
+    public IEnumerable<ProjectListDto> Projects { get; set; }
 }
 
 public class CreateInstituteDto
@@ -24,4 +22,12 @@ public class CreateInstituteDto
 
     public IFormFile Image { get; set; }
     public string Description { get; set; }
+}
+
+public class ListedInstitutesDto
+{
+    public string Id { get; set; }
+    public string Name { get; set; }
+    public string ImagesPath { get; set; }
+    
 }

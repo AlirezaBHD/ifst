@@ -12,6 +12,8 @@ namespace ifst.API.ifst.API.Controllers;
 [ApiController]
 public class InstituteController : ControllerBase
 {
+    #region Injection
+
     private readonly IInstituteService _instituteService;
     private readonly FileService _fileService;
     private readonly IGeneralServices _generalServices;
@@ -23,10 +25,64 @@ public class InstituteController : ControllerBase
         _fileService = fileService;
         _generalServices = generalServices;
     }
+
+    #endregion
+
+    #region Add Institute
+
     [HttpPost("AddInstitute")]
     public async Task<IActionResult> AddInstitute([FromForm] CreateInstituteDto instituteDto)
     {
         var newsletterObj = await _instituteService.AddInstitute(instituteDto);
         return Ok(newsletterObj);
     }
+
+    #endregion
+
+    #region Get Institute
+
+    [HttpGet("GetInstitute{instituteDto.Id}")]
+    public async Task<IActionResult> GetInstitute([FromRoute] GetObjectByIdDto instituteDto)
+    {
+        var newsletterObj = await _instituteService.GetInstitute(instituteDto.Id);
+        return Ok(newsletterObj);
+    }
+
+    #endregion
+
+    #region Deactivate Institute
+
+    [HttpPatch("institute/{instituteDto.Id}/Deactivate")]
+    public async Task<IActionResult> DeactiveInstitute([FromRoute] GetObjectByIdDto instituteDto)
+    {
+        var result = await _instituteService.Deactivate(instituteDto.Id);
+        return Ok(result);
+    }
+
+    #endregion
+
+    #region Activate Institute
+
+    [HttpPatch("institute/{instituteDto.Id}/Activate")]
+    public async Task<IActionResult> ActivateInstitute([FromRoute] GetObjectByIdDto instituteDto)
+    {
+        var result = await _instituteService.Activate(instituteDto.Id);
+        return Ok(result);
+    }
+
+    #endregion
+
+    #region Get All Institutes
+
+    [HttpGet("GetAllInstitutes")]
+    public async Task<IActionResult> GetAllInstitutes()
+    {
+        var newsletterObj = await _instituteService.GetAllInstitutes();
+        return Ok(newsletterObj);
+    }
+
+
+    #endregion
+    
+    
 }

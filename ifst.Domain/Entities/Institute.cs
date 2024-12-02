@@ -14,4 +14,5 @@ public class Institute
     [DefaultValue(false)] public bool Confirmed { get; set; }
     public string ImagesPath { get; set; }
     public string Description { get; set; }
+    public ICollection<Project> Projects { get; set; } = new List<Project>();
 }

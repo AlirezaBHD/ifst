@@ -260,6 +260,71 @@ namespace ifst.API.ifst.Infrastructure.Data.Migrations
                     b.ToTable("Pioneers");
                 });
 
+            modelBuilder.Entity("ifst.API.ifst.Domain.Entities.Project", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CapitalRequired")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GatheredSupport")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("GatheringStartDate")
+                        .HasMaxLength(75)
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasMaxLength(75)
+                        .HasColumnType("nvarchar(75)");
+
+                    b.Property<int>("InstituteId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(75)
+                        .HasColumnType("nvarchar(75)");
+
+                    b.Property<string>("Place")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasMaxLength(75)
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(2);
+
+                    b.Property<string>("Summery")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InstituteId");
+
+                    b.ToTable("Project");
+                });
+
             modelBuilder.Entity("ifst.API.ifst.Domain.Entities.Image", b =>
                 {
                     b.HasOne("ifst.API.ifst.Domain.Entities.Album", "Album")
@@ -270,9 +335,25 @@ namespace ifst.API.ifst.Infrastructure.Data.Migrations
                     b.Navigation("Album");
                 });
 
+            modelBuilder.Entity("ifst.API.ifst.Domain.Entities.Project", b =>
+                {
+                    b.HasOne("ifst.API.ifst.Domain.Entities.Institute", "Institute")
+                        .WithMany("Projects")
+                        .HasForeignKey("InstituteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Institute");
+                });
+
             modelBuilder.Entity("ifst.API.ifst.Domain.Entities.Album", b =>
                 {
                     b.Navigation("Images");
+                });
+
+            modelBuilder.Entity("ifst.API.ifst.Domain.Entities.Institute", b =>
+                {
+                    b.Navigation("Projects");
                 });
 #pragma warning restore 612, 618
         }

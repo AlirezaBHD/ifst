@@ -1,4 +1,5 @@
 ﻿using ifst.API.ifst.Domain.Entities;
+using ifst.API.ifst.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace ifst.API.ifst.Infrastructure.Data;
@@ -67,6 +68,12 @@ public class ApplicationDbContext : DbContext
             entity.Property(n => n.Body);
             entity.Property(n => n.Date);
         });
+        
+        modelBuilder.Entity<Project>()
+            .Property(p => p.Status)
+            .HasDefaultValue(ProjectStatus.NeedsRevision);
+
+        base.OnModelCreating(modelBuilder);
         
     }
 }

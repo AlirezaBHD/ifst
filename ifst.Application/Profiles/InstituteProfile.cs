@@ -9,7 +9,7 @@ public class InstituteProfile : Profile
     public InstituteProfile()
     {
         CreateMap<CreateInstituteDto, Institute>();
-
         CreateMap<Institute, InstituteDto>();
+        CreateMap<Institute, ListedInstitutesDto>();
     }
 }
