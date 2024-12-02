@@ -57,7 +57,7 @@ public static class CommonValidator
             .Length(minLength, maxLength)
             .WithMessage($"{fieldName} باید بین {minLength} تا {maxLength} کاراکتر باشد.");
     }
-    
+
     public static IRuleBuilderOptions<T, string> CommonTHMLRules<T>(
         this IRuleBuilder<T, string> ruleBuilder,
         string fieldName)
@@ -67,6 +67,45 @@ public static class CommonValidator
             .NotEmpty().WithMessage($".{fieldName} نباید خالی باشد");
     }
 
+    
+
+    public static IRuleBuilderOptions<T, IFormFile> CommonImageRules<T>(
+        this IRuleBuilder<T, IFormFile> ruleBuilder,
+        int maxSize = 5,
+        string[]? allowedExtensions = null,
+        string errorMessage = " فایل تصویر معتبر نیست.")
+    {
+
+        var maxSizeMb = maxSize * 1048576;
+        allowedExtensions ??= new[] { ".webp", ".png", ".jpg", ".jpeg" };
+        return ruleBuilder.Must(file =>
+        {
+            if (file == null || file.Length == 0)
+                return false;
+            var extension = Path.GetExtension(file.FileName)?.ToLower();
+            return extension != null && allowedExtensions.Contains(extension);
+        }).WithMessage(errorMessage)
+            .Must(file => file.Length <= maxSizeMb).WithMessage($".حجم عکس نمیتواند بیشتر از {maxSizeMb} مگابایت باشد");
+    }
+    
+    public static IRuleBuilderOptions<T, IFormFile> CommonFileRules<T>(
+        this IRuleBuilder<T, IFormFile> ruleBuilder,
+        int maxSize = 5,
+        string[]? allowedExtensions = null,
+        string errorMessage = " فایل معتبر نیست.")
+    {
+        var maxSizeMb = maxSize * 1048576;
+
+        return ruleBuilder.Must(file =>
+        {
+            if (file == null || file.Length == 0)
+                return false;
+        
+            var extension = Path.GetExtension(file.FileName)?.ToLower();
+            return extension != null && allowedExtensions.Contains(extension);
+        }).WithMessage(errorMessage).WithMessage(errorMessage)
+        .Must(file => file.Length <= maxSizeMb).WithMessage($".حجم فایل نمیتواند بیشتر از {maxSizeMb} مگابایت باشد");;
+    }
 
     public static IRuleBuilderOptions<T, int> CommonIntRules<T>(
         this IRuleBuilder<T, int> ruleBuilder,

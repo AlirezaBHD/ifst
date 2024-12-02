@@ -13,7 +13,7 @@ public class AddInstituteDtoValidator: AbstractValidator<CreateInstituteDto>
         RuleFor(i => i.RequesterFullName).CommonStringRules( 3,75,"نام درخواست کننده");
         RuleFor(i => i.RequesterEmail).EmailRules();
         RuleFor(i => i.RequesterNationalId).NationalCodeRules();
-        // RuleFor(i => i.RequesterFullName).CommonStringRules( 3,50,"نام موسسه"); //image
+        RuleFor(i => i.Image).CommonImageRules();
         RuleFor(i => i.Description).CommonTHMLRules( "توضیحات موسسه");
 
     }
