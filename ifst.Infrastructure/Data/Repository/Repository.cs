@@ -120,7 +120,6 @@ namespace ifst.API.ifst.Infrastructure.Data.Repository
             var predicate = filterCriteria.GeneratePredicate();
             var query = _entities.AsQueryable();
 
-            // بررسی فیلترها
             if (predicate != null)
             {
                 query = query.Where(predicate);
@@ -132,10 +131,8 @@ namespace ifst.API.ifst.Infrastructure.Data.Repository
                 var propertyInfo = typeof(T).GetProperty(options.SortBy);
                 if (propertyInfo == null)
                 {
-                    // اگر فیلد وجود ندارد، می‌توان یک پیام خطا به کاربر برگرداند
                     var errors = new List<ValidationFailure>
                     {
-                        // new ValidationFailure("Invalid Keyword",$"در {_displayName} پراپرتی {options.SortBy}.وجود ندارد"),
                         new ValidationFailure("Invalid Keyword", $"Invalid Keyword '{options.SortBy}' for {typeof(T).Name} ")
                     };
 

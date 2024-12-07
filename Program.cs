@@ -13,6 +13,7 @@ using ifst.API.ifst.Infrastructure.Data.Repository;
 using ifst.API.ifst.Infrastructure.FileManagement;
 using JsonPatchSample;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +40,8 @@ builder.Services.AddScoped<INewsletterRepository, NewsletterRepository>();
 builder.Services.AddScoped<INoteRepository, NoteRepository>();
 builder.Services.AddScoped<IInstituteRepository, InstituteRepository>();
 //
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+//
 builder.Services.AddScoped<IGeneralServices,GeneralServices>();
 builder.Services.AddScoped<IAlbumService,AlbumService>();
 builder.Services.AddScoped<IPioneersService,PioneersService>();
@@ -48,13 +51,20 @@ builder.Services.AddScoped<IContactUsService,ContactUsService>();
 builder.Services.AddScoped<INewsletterService,NewsletterService>();
 builder.Services.AddScoped<INoteService,NoteService>();
 builder.Services.AddScoped<IInstituteService,InstituteService>();
-
+builder.Services.AddScoped(typeof(IPatchService<,>), typeof(PatchService<,>));
 builder.Services.AddValidatorsFromAssemblyContaining<CreateAlbumValidator>();
 builder.Services.AddFluentValidationAutoValidation();
 
 
 //AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+//newton
+builder.Services.AddControllers().AddNewtonsoftJson();
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(options =>
+        options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+
 
 //Not Null Filter
 // builder.Services.AddControllers(options =>
@@ -115,3 +125,4 @@ record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 }
+

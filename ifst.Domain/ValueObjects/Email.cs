@@ -17,6 +17,6 @@ public class Email
             return EmailRegex.IsMatch(email);
         }
 
-        return false;
+        return true;
     }
 }

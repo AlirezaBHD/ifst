@@ -11,5 +11,8 @@ public class InstituteProfile : Profile
         CreateMap<CreateInstituteDto, Institute>();
         CreateMap<Institute, InstituteDto>();
         CreateMap<Institute, ListedInstitutesDto>();
+        CreateMap<Institute, MainListedInstitutesDto>();
+        CreateMap<Institute, PatchInstitutesDto>();
+        CreateMap<PatchInstitutesDto, Institute>();
     }
 }

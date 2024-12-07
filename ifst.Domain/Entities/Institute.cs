@@ -9,7 +9,7 @@ public class Institute
     public int Id { get; set; }
     [Required] [MaxLength(75)] public string Name { get; set; }
     [Required] [MaxLength(75)] public string RequesterFullName { get; set; }
-    public string RequesterEmail { get; set; }
+    public string? RequesterEmail { get; set; }
     [Required] public string RequesterNationalId { get; set; }
     [DefaultValue(false)] public bool Confirmed { get; set; }
     public string ImagesPath { get; set; }

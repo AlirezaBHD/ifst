@@ -27,12 +27,22 @@ public class ValidationMiddleware
             {
                 Title = ".خطایی رخ داده است",
                 Status = StatusCodes.Status400BadRequest,
-                // Instance = context.Request.Path
             };
 
             foreach (var error in ex.Errors)
             {
-                problemDetails.Errors.Add(error.PropertyName, new[] { error.ErrorMessage });
+                if (problemDetails.Errors.ContainsKey(error.PropertyName))
+                {
+                    // افزودن پیام خطا به کلید موجود
+                    var existingErrors = problemDetails.Errors[error.PropertyName].ToList();
+                    existingErrors.Add(error.ErrorMessage);
+                    problemDetails.Errors[error.PropertyName] = existingErrors.ToArray();
+                }
+                else
+                {
+                    // ایجاد کلید جدید
+                    problemDetails.Errors.Add(error.PropertyName, new[] { error.ErrorMessage });
+                }
             }
 
             await context.Response.WriteAsJsonAsync(problemDetails);
