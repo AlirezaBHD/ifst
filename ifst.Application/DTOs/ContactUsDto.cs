@@ -16,3 +16,11 @@ public class AllContactUsDto
     [DefaultValue(1)] public int Page { get; set; }
     [DefaultValue(10)] public int PageSize { get; set; }
 }
+
+public class CreateContactUs
+{
+    public string FullName { get; set; }
+    public string Email { get; set; }
+    public string Subject { get; set; }
+    public string Body { get; set; }
+}

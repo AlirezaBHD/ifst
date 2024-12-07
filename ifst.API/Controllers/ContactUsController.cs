@@ -41,7 +41,7 @@ namespace ifst.API.ifst.API.Controllers
 
         [HttpPost("SubmitContactUs")]
 
-        public async Task<IActionResult> SubmitContactUs([FromForm] ContactUsDto contactUsDto)
+        public async Task<IActionResult> SubmitContactUs([FromBody] CreateContactUs contactUsDto)
         {
             await _contactUsService.AddContactUsAsync(contactUsDto);
             return Ok("پیام شما ارسال شد");

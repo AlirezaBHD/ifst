@@ -6,7 +6,7 @@ namespace ifst.API.ifst.Application.Interfaces.ServiceInterfaces;
 
 public interface IContactUsService
 {
-    Task AddContactUsAsync(ContactUsDto contactUsDto);
+    Task AddContactUsAsync(CreateContactUs contactUsDto);
     
     Task<ContactUs> GetContactUsByIdAsync(GetObjectByIdDto contactUsDto);
     

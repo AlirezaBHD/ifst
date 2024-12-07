@@ -24,7 +24,7 @@ public class ContactUsService : IContactUsService
         _mapper = mapper;
     }
 
-    public async Task AddContactUsAsync(ContactUsDto contactUsDto)
+    public async Task AddContactUsAsync(CreateContactUs contactUsDto)
     {
         var contactObject = _mapper.Map<ContactUs>(contactUsDto);
 
