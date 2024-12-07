@@ -27,31 +27,21 @@ public class PatchService<T, TDto> : IPatchService<T, TDto>
 
     public async Task PatchAsync(int id, JsonPatchDocument<TDto> patchDoc)
     {
-        // دریافت موجودیت از دیتابیس
         var entity = await _repository.GetByIdAsync(id);
 
-        // نگاشت موجودیت به Dto
         var dto = _mapper.Map<TDto>(entity);
 
-        
-        
-        
+
         // اعمال تغییرات Patch به Dto
         patchDoc.ApplyTo(dto, error => { throw new Exception($"Patch error: {error.ErrorMessage}"); });
-        // patchDoc.ApplyTo(dto);
 
         //
         await PatchDtoValidation(dto, _validator);
 
-        
-        // نگاشت Dto به موجودیت اصلی
+
         _mapper.Map(dto, entity);
-
-        // ذخیره تغییرات در دیتابیس
-
-
-        
     }
+
     public async Task PatchDtoValidation<TDto>(TDto dto, IValidator<TDto> validator)
     {
         var validationResult = await validator.ValidateAsync(dto);

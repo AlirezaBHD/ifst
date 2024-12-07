@@ -54,28 +54,6 @@ public class InstituteController : ControllerBase
 
     #endregion
 
-    #region Deactivate Institute
-
-    [HttpPatch("institute/{instituteDto.Id}/Deactivate")]
-    public async Task<IActionResult> DeactiveInstitute([FromRoute] GetObjectByIdDto instituteDto)
-    {
-        var result = await _instituteService.Deactivate(instituteDto.Id);
-        return Ok(result);
-    }
-
-    #endregion
-
-    #region Activate Institute
-
-    [HttpPatch("institute/{instituteDto.Id}/Activate")]
-    public async Task<IActionResult> ActivateInstitute([FromRoute] GetObjectByIdDto instituteDto)
-    {
-        var result = await _instituteService.Activate(instituteDto.Id);
-        return Ok(result);
-    }
-
-    #endregion
-
     #region Patch Institute
 
     [HttpPatch("{instituteDto.Id}")]
