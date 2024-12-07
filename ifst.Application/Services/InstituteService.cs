@@ -84,35 +84,6 @@ public class InstituteService : IInstituteService
 
     #endregion
     
-    
-    #region Deactivate
-
-    public async Task<string> Deactivate(int id)
-    {
-        var institute = await _instituteRepository.GetByIdAsync(id);
-        if (!institute.Confirmed) return ".بنیاد در حال حاضر غیرفعال است";
-        institute.Confirmed = false;
-        await _generalServices.SaveAsync(); 
-        return ".بنیاد با موفقیت غیرفعال شد";
-
-    }
-
-    #endregion
-    
-
-    #region Activate
-
-    public async Task<string> Activate(int id)
-    {
-        var institute = await _instituteRepository.GetByIdAsync(id);
-        if (institute.Confirmed) return ".بنیاد در حال حاضر فعال است";
-        institute.Confirmed = true;
-        await _generalServices.SaveAsync();
-        return ".بنیاد با موفقیت فعال شد";
-
-    }
-
-    #endregion
 
     #region Patch
 
@@ -131,6 +102,19 @@ public class InstituteService : IInstituteService
         await _patchService.PatchAsync(id, patchDoc);
         await _generalServices.SaveAsync();
     }
+
+    #endregion
+
+    
+    #region Institute Status
+
+    public async Task InstituteStatus(GetObjectByIdDto instituteDto, PatchInstitutesStatusDto institutesStatusDto)
+    {
+        var institute = await _instituteRepository.GetByIdAsync(instituteDto.Id);
+        institute.Confirmed = institutesStatusDto.Confirmed == "true";
+    }
+
+    
 
     #endregion
 }

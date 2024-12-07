@@ -65,3 +65,8 @@ public class PatchInstitutesDto
     [Required]
     public string Description { get; set; }
 }
+
+public class PatchInstitutesStatusDto
+{
+    public string Confirmed { get; set; } ="false";
+}

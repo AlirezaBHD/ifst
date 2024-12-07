@@ -117,8 +117,6 @@ public static class CommonValidator
         }
         
         return ruleBuilder
-            .Must(file => file != null && !string.IsNullOrEmpty(file.FileName))
-            .WithMessage(".نام فایل تصویر الزامی است.")
             .Must(file =>
             {
                 if (file != null)
@@ -153,6 +151,7 @@ public static class CommonValidator
         bool blank = false)
     {
         var maxSizeMb = maxSize * 1048576;
+        allowedExtensions.Append("*");
 
         if (!blank)
         {
@@ -160,21 +159,28 @@ public static class CommonValidator
                 .NotNull().WithMessage(".فایل الزامی است")
                 .NotEmpty().WithMessage(".فایل نمیتواند خالی باشد");
         }
-
+        
         return ruleBuilder
-            .Must(file => blank || (file != null && !string.IsNullOrEmpty(file.FileName)))
-            .WithMessage(".نام فایل تصویر الزامی است.")
             .Must(file =>
             {
-                if (file == null) return blank;
-                var extension = Path.GetExtension(file.FileName)?.ToLower();
-                return extension != null && allowedExtensions.Contains(extension);
-            }).WithMessage($" تصویر معتبر نیست. پسوند های معتبر: {string.Join(", ", allowedExtensions)}")
+                if (file != null)
+                {
+                    var extension = Path.GetExtension(file.FileName)?.ToLower();
+                    return extension != null && allowedExtensions.Contains(extension);
+                }
+
+                return true;
+            }).WithMessage($" فایل معتبر نیست. پسوند های معتبر: {string.Join(", ", allowedExtensions)}")
             .Must(file =>
             {
-                if (file == null) return blank;
-                return file.Length <= maxSizeMb;
-            }).WithMessage($".حجم تصویر نمیتواند بیشتر از {maxSizeMb} مگابایت باشد");
+                if (file != null)
+                {
+                    return file.Length <= maxSizeMb;
+                }
+
+                return true;
+            }).WithMessage($".حجم فایل نمیتواند بیشتر از {maxSizeMb} مگابایت باشد");
+        
     }
 
     #endregion
@@ -191,6 +197,19 @@ public static class CommonValidator
         return ruleBuilder
             .GreaterThanOrEqualTo(minValue).WithMessage($"{fieldName} باید بزرگتر یا مساوی {minValue} باشد.")
             .LessThanOrEqualTo(maxValue).WithMessage($"{fieldName} باید کوچکتر یا مساوی {maxValue} باشد.");
+    }
+
+    #endregion
+
+    #region Common Bool Rule
+
+    public static IRuleBuilderOptions<T, string> CommonBoolRule<T>(
+        this IRuleBuilder<T, string> ruleBuilder,
+        string fieldName)
+    {
+        var values = new[] { "true", "false" };
+        return ruleBuilder
+            .Must(b => values.Contains(b)).WithMessage($".مقدار ورودی{fieldName} مقادیر قایل قبول: \"true\" و \"false\"  غیرقایل قبول است");
     }
 
     #endregion
