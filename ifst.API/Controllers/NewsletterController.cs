@@ -56,7 +56,6 @@ public class NewsletterController : ControllerBase
     {
         var result = await _newsletterService.UpdateNewsletterAsync(newsletterId.Id,newsletterDto );
         return Ok(result);
-        return Ok("|");
     }
     
     [HttpDelete("RemoveNewsletter/{newsletterId.Id}")]
