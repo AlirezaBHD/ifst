@@ -176,7 +176,9 @@ namespace ifst.API.ifst.Infrastructure.Data.Repository
                 query = query.Include(include);
             }
 
-            return await query.FirstOrDefaultAsync(e => EF.Property<int>(e, "Id") == id);
+            var obj = await query.FirstOrDefaultAsync(e => EF.Property<int>(e, "Id") == id);
+            obj.ThrowIfNull(_displayName);
+            return obj;
         }
 
         #endregion
