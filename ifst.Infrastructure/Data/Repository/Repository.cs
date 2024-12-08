@@ -165,5 +165,22 @@ namespace ifst.API.ifst.Infrastructure.Data.Repository
             };
         }
 
+        #region Get Relational Objects with include
+
+        public async Task<T> GetByIdWithIncludesAsync(int id, params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = _context.Set<T>();
+
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return await query.FirstOrDefaultAsync(e => EF.Property<int>(e, "Id") == id);
+        }
+
+        #endregion
+        
+
     }
 }

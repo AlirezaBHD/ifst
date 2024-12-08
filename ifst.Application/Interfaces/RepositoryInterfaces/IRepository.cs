@@ -23,5 +23,7 @@ namespace ifst.API.ifst.Application.Interfaces
 
         Task<PaginatedResult<T>> GetFilteredAndSortedPaginated(
             FilterAndSortPaginatedOptions options);
+
+        Task<T> GetByIdWithIncludesAsync(int id, params Expression<Func<T, object>>[] includes);
     }
 }
