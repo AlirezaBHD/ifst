@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ifst.API.ifst.Domain.Entities;
 
-[DisplayName("آلبوم")]
+[DisplayName("بنیاد")]
 public class Institute
 {
     public int Id { get; set; }
