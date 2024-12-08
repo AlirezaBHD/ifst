@@ -33,7 +33,7 @@ public class AlbumService : IAlbumService
 
     public async Task<AlbumDto> GetAlbumByIdAsync(int id)
     {
-        var album = await _albumRepository.GetByIdAsync(id);
+        var album = await _albumRepository.GetByIdWithIncludesAsync(id, album => album.Images);
         var albumDtoObj = _mapper.Map<AlbumDto>(album);
         return albumDtoObj;
     }

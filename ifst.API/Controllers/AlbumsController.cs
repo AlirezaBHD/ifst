@@ -35,6 +35,7 @@ namespace ifst.API.ifst.API.Controllers
         [HttpGet("GetAlbum")]
         public async Task<IActionResult> GetAlbum([FromQuery] GetAlbumDto albumDto)
         {
+                // var albumDtoObj = await _albumService.GetAlbumByIdAsync(albumDto.Id);
                 var albumDtoObj = await _albumService.GetAlbumByIdAsync(albumDto.Id);
                 return Ok(albumDtoObj);
         }
