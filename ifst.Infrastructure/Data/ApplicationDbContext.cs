@@ -70,6 +70,10 @@ public class ApplicationDbContext : DbContext
         });
         
         modelBuilder.Entity<Project>()
+            .HasOne(p => p.Institute)
+            .WithMany(i => i.Projects)
+            .HasForeignKey(p => p.InstituteId);
+        modelBuilder.Entity<Project>()
             .Property(p => p.Status)
             .HasDefaultValue(ProjectStatus.NeedsRevision);
 
