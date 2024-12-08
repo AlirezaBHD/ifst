@@ -5,11 +5,11 @@ namespace ifst.API.ifst.Application.DTOs;
 
 public class InstituteDto
 {
-    public string Id { get; set; }
+    public int Id { get; set; }
     public string Name { get; set; }
     public string ImagesPath { get; set; }
     public string Description { get; set; }
-    public IEnumerable<ProjectListDto> Projects { get; set; }
+    public ICollection<ProjectListDto> Projects { get; set; }
 }
 
 public class CreateInstituteDto
