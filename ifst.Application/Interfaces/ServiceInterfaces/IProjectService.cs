@@ -9,7 +9,7 @@ public interface IProjectService
 
     // Task<IEnumerable<Newsletter>> GetProjectsAsync(FilterAndSortPaginatedOptions options);
     //
-    // Task<NewsletterDto> GetProject (GetObjectByIdDto newsletter);
+    Task<ProjectDetailDto> GetProject (GetObjectByIdDto projectDto);
     //
     // Task<Newsletter> UpdateProject(int id, PatchNewsletterDto newsletterDto);
     //

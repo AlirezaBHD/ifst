@@ -34,4 +34,11 @@ public class ProjectService : IProjectService
         await _generalServices.SaveAsync();
 
     }
+
+    public async Task<ProjectDetailDto> GetProject(GetObjectByIdDto projectDto)
+    {
+        var project = await _projectRepository.GetByIdWithIncludesAsync(projectDto.Id, project => project.Institute);
+        var projectObj = _mapper.Map<ProjectDetailDto>(project);
+        return projectObj;
+    }
 }
