@@ -39,6 +39,7 @@ builder.Services.AddScoped<IContactInformationRepository, ContactInformationRepo
 builder.Services.AddScoped<INewsletterRepository, NewsletterRepository>();
 builder.Services.AddScoped<INoteRepository, NoteRepository>();
 builder.Services.AddScoped<IInstituteRepository, InstituteRepository>();
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 //
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 //
@@ -51,6 +52,7 @@ builder.Services.AddScoped<IContactUsService,ContactUsService>();
 builder.Services.AddScoped<INewsletterService,NewsletterService>();
 builder.Services.AddScoped<INoteService,NoteService>();
 builder.Services.AddScoped<IInstituteService,InstituteService>();
+builder.Services.AddScoped<IProjectService,ProjectService>();
 builder.Services.AddScoped(typeof(IPatchService<,>), typeof(PatchService<,>));
 builder.Services.AddValidatorsFromAssemblyContaining<CreateAlbumValidator>();
 builder.Services.AddFluentValidationAutoValidation();
