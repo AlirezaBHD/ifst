@@ -11,5 +11,6 @@ public class ProjectProfile : Profile
     {
 
         CreateMap<CreateProjectDto, Project>();
+        CreateMap<Project, ProjectListDto>();
     }
 }
