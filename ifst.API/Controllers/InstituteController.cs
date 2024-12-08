@@ -48,8 +48,8 @@ public class InstituteController : ControllerBase
     [HttpGet("GetInstitute{instituteDto.Id}")]
     public async Task<IActionResult> GetInstitute([FromRoute] GetObjectByIdDto instituteDto)
     {
-        var newsletterObj = await _instituteService.GetInstitute(instituteDto.Id);
-        return Ok(newsletterObj);
+        var instituteObj = await _instituteService.GetInstitute(instituteDto.Id);
+        return Ok(instituteObj);
     }
 
     #endregion
