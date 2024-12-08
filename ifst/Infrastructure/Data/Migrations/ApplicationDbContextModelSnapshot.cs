@@ -155,7 +155,6 @@ namespace ifst.API.ifst.Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(75)");
 
                     b.Property<string>("RequesterEmail")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RequesterFullName")
