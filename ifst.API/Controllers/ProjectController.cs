@@ -22,4 +22,11 @@ public class ProjectController: ControllerBase
         await _projectService.AddProjectAsync(institute, project);
         return Ok(".پروژه با موفقیت اضافه شد");
     }
+    
+    [HttpGet("GetProject/{institute.Id}")]
+    public async Task<IActionResult> GetProject([FromRoute]GetObjectByIdDto institute)
+    {
+        var project = await _projectService.GetProject(institute);
+        return Ok(project);
+    }
 }
