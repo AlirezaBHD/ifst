@@ -23,7 +23,7 @@ public class ProjectService : IProjectService
         _instituteRepository = instituteRepository;
     }
 
-    public async Task  AddProjectAsync(GetObjectByIdDto institute, CreateProjectDto projectDto)
+    public async Task<ProjectDto> AddProjectAsync(GetObjectByIdDto institute, CreateProjectDto projectDto)
     {
         var project = _mapper.Map<Project>(projectDto);
         var imagePath = await _fileService.SaveFileAsync(projectDto.ImageFile, "Project");
@@ -32,6 +32,8 @@ public class ProjectService : IProjectService
         var instituteObj =await _instituteRepository.GetByIdAsync(institute.Id);
         instituteObj.Projects.Add(project);
         await _generalServices.SaveAsync();
+        var projectDtoObj = _mapper.Map<ProjectDto>(project);
+        return projectDtoObj;
 
     }
 

@@ -5,7 +5,7 @@ namespace ifst.API.ifst.Application.Interfaces.ServiceInterfaces;
 
 public interface IProjectService
 {
-    Task AddProjectAsync(GetObjectByIdDto institute, CreateProjectDto projectDto);
+    Task<ProjectDto> AddProjectAsync(GetObjectByIdDto institute, CreateProjectDto projectDto);
 
     // Task<IEnumerable<Newsletter>> GetProjectsAsync(FilterAndSortPaginatedOptions options);
     //
