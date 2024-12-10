@@ -43,4 +43,16 @@ public class ProjectController : ControllerBase
     }
 
     #endregion
+
+    
+    #region Delete Project
+    
+    [HttpDelete("DeleteProject/{Id}")]
+    public async Task<IActionResult> DeleteProject([FromRoute] GetObjectByIdDto projectDto)
+    {
+        await _projectService.DeleteProject(projectDto);
+        return Ok(".پروژه با موفقیت حذف شد");
+    }
+
+    #endregion
 }
