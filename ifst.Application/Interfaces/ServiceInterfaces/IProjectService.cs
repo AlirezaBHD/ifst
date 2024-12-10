@@ -13,5 +13,5 @@ public interface IProjectService
     //
     // Task<Newsletter> UpdateProject(int id, PatchNewsletterDto newsletterDto);
     //
-    // Task DeleteProject(GetObjectByIdDto newsletter);
+    Task DeleteProject(GetObjectByIdDto projectDto);
 }

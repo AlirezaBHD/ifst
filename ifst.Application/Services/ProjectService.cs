@@ -43,4 +43,11 @@ public class ProjectService : IProjectService
         var projectObj = _mapper.Map<ProjectDetailDto>(project);
         return projectObj;
     }
+
+    public async Task DeleteProject(GetObjectByIdDto projectDto)
+    {
+        var project = await _projectRepository.GetByIdAsync(projectDto.Id);
+        _projectRepository.Remove(project);
+        await _generalServices.SaveAsync();
+    }
 }
