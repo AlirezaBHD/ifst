@@ -30,7 +30,6 @@ public class ProjectListDto
 public class CreateProjectDto
 {
     public string? Name { get; set; }
-    public ProjectStatus Status { get; set; }= ProjectStatus.UnCheck;
     public DateTime? StartDate { get; set; }
     public DateTime? GatheringStartDate { get; set; }
     public IFormFile? ImageFile { get; set; }
@@ -56,4 +55,19 @@ public class ProjectDetailDto
     public string GatheredSupport { get; set; }
     public string Description { get; set; }
     public string InstituteName { get; set; }
+}
+
+public class InstituteUpdateProjectDto
+{
+    public string Name { get; set; }
+    public DateTime StartDate { get; set; }
+    public DateTime GatheringStartDate { get; set; }
+    public IFormFile? ImageFile { get; set; }
+    public string CapitalRequired { get; set; }
+    public string City { get; set; }
+    public string Place { get; set; }
+    public string GatheredSupport { get; set; }
+    public string Summery { get; set; }
+    public string Description { get; set; }
+
 }
