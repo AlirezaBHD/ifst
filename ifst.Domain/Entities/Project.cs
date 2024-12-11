@@ -15,7 +15,7 @@ public class Project
     public ProjectStatus Status { get; set; }= ProjectStatus.UnCheck;
     [MaxLength(75)] public DateTime StartDate { get; set; }
     [MaxLength(75)] public DateTime GatheringStartDate { get; set; }
-    [MaxLength(75)] public string ImagePath { get; set; }
+    [MaxLength(75)] public string? ImagePath { get; set; }
     public string CapitalRequired { get; set; }
     public string City { get; set; }
     public string Place { get; set; }
