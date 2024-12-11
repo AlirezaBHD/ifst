@@ -15,12 +15,12 @@ public class InstituteService : IInstituteService
     #region Injections
     
     private readonly IMapper _mapper;
-    private readonly IGeneralServices _generalServices;
+    private readonly IGeneralServices<Institute> _generalServices;
     private readonly IInstituteRepository _instituteRepository;
     private readonly FileService _fileService;
     private readonly IPatchService<Institute, PatchInstitutesDto> _patchService;
     
-    public InstituteService(IMapper mapper, IGeneralServices generalServices,
+    public InstituteService(IMapper mapper, IGeneralServices<Institute> generalServices,
         IInstituteRepository instituteRepository, FileService fileService, IPatchService<Institute, PatchInstitutesDto> patchService)
     {
         _instituteRepository = instituteRepository;
@@ -41,7 +41,7 @@ public class InstituteService : IInstituteService
         var institute = _mapper.Map<Institute>(createInstituteDto);
         institute.ImagesPath = imagePath;
         await _instituteRepository.AddAsync(institute);
-        await _generalServices.SaveAsync();
+        await _instituteRepository.SaveAsync();
         var dto = _mapper.Map<InstituteDto>(institute);
         return dto;
     }
@@ -53,9 +53,8 @@ public class InstituteService : IInstituteService
 
     public async Task<InstituteDto> GetInstitute(int id)
     {
-        var institute = await _instituteRepository.GetByIdWithIncludesAsync(id, condition:i => i.Confirmed == true, includes:i=>i.Projects);
-        var result = _mapper.Map<InstituteDto>(institute);
-        return result;
+        var institute = await _instituteRepository.GetByIdAsyncLimited<InstituteDto>(id, condition:i => i.Confirmed == true, includes:i=>i.Projects);
+        return institute;
     }
 
     #endregion
@@ -65,6 +64,7 @@ public class InstituteService : IInstituteService
 
     public async Task<IEnumerable<MainListedInstitutesDto>> GetAllInstitutes()
     {
+        // var institutes = await _instituteRepository.GetAllAsync();
         var institutes = await _instituteRepository.GetAllAsync();
         var institutesDto = _mapper.Map<IEnumerable<Institute>,IEnumerable<MainListedInstitutesDto>>(institutes);
         return institutesDto;
@@ -100,7 +100,7 @@ public class InstituteService : IInstituteService
         //
         // _mapper.Map(newInstitute, institute);
         await _patchService.PatchAsync(id, patchDoc);
-        await _generalServices.SaveAsync();
+        await _instituteRepository.SaveAsync();
     }
 
     #endregion

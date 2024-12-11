@@ -20,14 +20,12 @@ namespace ifst.API.ifst.API.Controllers
     {
         private readonly IContactUsService _contactUsService;
         private readonly IContactUsRepository _repository;
-        private readonly IGeneralServices _generalServices;
 
 
-        public ContactUsController(IGeneralServices generalServices,
+        public ContactUsController(
             IContactUsRepository repository, IContactUsService contactUsService)
         {
             _repository = repository;
-            _generalServices = generalServices;
             _contactUsService = contactUsService;
         }
 

@@ -11,12 +11,12 @@ namespace ifst.API.ifst.Application.Services;
 public class NoteService : INoteService
 {
     private readonly IMapper _mapper;
-    private readonly IGeneralServices _generalServices;
+    private readonly IGeneralServices<Note> _generalServices;
     private readonly INoteRepository _noteRepository;
     private readonly FileService _fileService;
 
 
-    public NoteService(INoteRepository noteRepository, IGeneralServices generalServices, IMapper mapper,
+    public NoteService(INoteRepository noteRepository, IGeneralServices<Note> generalServices, IMapper mapper,
         FileService fileService)
     {
         _noteRepository = noteRepository;
@@ -31,7 +31,7 @@ public class NoteService : INoteService
         var image = await _fileService.SaveFileAsync(noteDto.Image, "Note");
         note.ImagePath = image;
         await _noteRepository.AddAsync(note);
-        await _generalServices.SaveAsync();
+        await _noteRepository.SaveAsync();
         var noteObjDto = _mapper.Map<NoteDto>(note);
         return noteObjDto;
     }
@@ -47,25 +47,14 @@ public class NoteService : INoteService
     {
         var note = await _noteRepository.GetByIdAsync(noteDto.Id);
         _noteRepository.Remove(note);
-        await _generalServices.SaveAsync();
+        await _noteRepository.SaveAsync();
     }
 
     public async Task<PaginatedResult<ListedNoteDto>> GetNewslettersAsync(FilterAndSortPaginatedOptions options)
     {
-        var paginatedResult = await _noteRepository.GetFilteredAndSortedPaginated(options);
-        var mappedItems =_mapper.Map<IEnumerable<Note>, IEnumerable<ListedNoteDto>>(paginatedResult.Items);
+        var paginatedResult = await _noteRepository.GetFilteredAndSortedPaginated<ListedNoteDto>(options);
         
-        
-        var result = new PaginatedResult<ListedNoteDto>
-        {
-            Items = mappedItems,
-            TotalCount = paginatedResult.TotalCount,
-            PageNumber = paginatedResult.PageNumber,
-            PageSize = paginatedResult.PageSize,
-        };
-        
-            
-        return result;
+        return paginatedResult;
         
     }
 }

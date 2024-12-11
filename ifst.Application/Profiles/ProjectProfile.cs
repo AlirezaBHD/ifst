@@ -15,6 +15,7 @@ public class ProjectProfile : Profile
         CreateMap<Project, ProjectDetailDto>().ForMember(dest => dest.InstituteName, opt => opt.MapFrom(src => src.Institute.Name));
         CreateMap<Project, ProjectDto>();
         CreateMap<InstituteUpdateProjectDto, Project>();
+        CreateMap<Project,ProjectsName>();
 
     }
 }

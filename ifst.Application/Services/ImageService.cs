@@ -14,10 +14,10 @@ public class ImageService : IImageService
     private readonly IMapper _mapper;
     private readonly FileService _fileService;
 
-    private readonly IGeneralServices _generalServices;
+    private readonly IGeneralServices<Image> _generalServices;
 
     public ImageService(IAlbumRepository albumRepository, IImageRepository imageRepository, IMapper mapper,
-        FileService fileService, IGeneralServices generalServices)
+        FileService fileService, IGeneralServices<Image> generalServices)
     {
         _albumRepository = albumRepository;
         _imageRepository = imageRepository;
@@ -41,7 +41,7 @@ public class ImageService : IImageService
 
         await _imageRepository.AddAsync(image);
         album.Images.Add(image);
-        await _generalServices.SaveAsync();
+        await _imageRepository.SaveAsync();
 
         var imageDto = _mapper.Map<ImageDto>(image);
         return imageDto;

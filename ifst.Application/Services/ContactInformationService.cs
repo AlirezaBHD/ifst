@@ -10,10 +10,10 @@ namespace ifst.API.ifst.Application.Services;
 public class ContactInformationService : IContactInformationService
 {
     private readonly IMapper _mapper;
-    private readonly IGeneralServices _generalServices;
+    private readonly IGeneralServices<ContactInformation> _generalServices;
     private readonly IContactInformationRepository _contactInformationRepository;
 
-    public ContactInformationService(IMapper mapper, IGeneralServices generalServices,
+    public ContactInformationService(IMapper mapper, IGeneralServices<ContactInformation> generalServices,
         IContactInformationRepository contactInformationRepository)
     {
         _mapper = mapper;
@@ -36,7 +36,7 @@ public class ContactInformationService : IContactInformationService
             _contactInformationRepository.Update(contactInfo);
         }
 
-        await _generalServices.SaveAsync();
+        await _contactInformationRepository.SaveAsync();
     }
 
     public async Task<ContactInformationDto> GetContactInformation()

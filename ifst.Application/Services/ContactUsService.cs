@@ -13,11 +13,11 @@ public class ContactUsService : IContactUsService
 
 {
     private readonly IMapper _mapper;
-    private readonly IGeneralServices _generalServices;
+    private readonly IGeneralServices<ContactUs> _generalServices;
     private readonly IContactUsRepository _contactUsRepository;
 
 
-    public ContactUsService(IContactUsRepository contactUsRepository, IGeneralServices generalServices, IMapper mapper)
+    public ContactUsService(IContactUsRepository contactUsRepository, IGeneralServices<ContactUs> generalServices, IMapper mapper)
     {
         _contactUsRepository = contactUsRepository;
         _generalServices = generalServices;
@@ -29,7 +29,7 @@ public class ContactUsService : IContactUsService
         var contactObject = _mapper.Map<ContactUs>(contactUsDto);
 
         await _contactUsRepository.AddAsync(contactObject);
-        await _generalServices.SaveAsync();
+        await _contactUsRepository.SaveAsync();
         
     }
 
@@ -42,7 +42,7 @@ public class ContactUsService : IContactUsService
 
     public async Task<PaginatedResult<ContactUs>> FilteredPaginatedContactUsList(FilterAndSortPaginatedOptions options)
     {
-        var result = await _contactUsRepository.GetFilteredAndSortedPaginated(options);
+        var result = await _contactUsRepository.GetFilteredAndSortedPaginated<ContactUs>(options);
         return result;
     }
 }

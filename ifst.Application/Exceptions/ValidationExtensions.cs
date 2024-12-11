@@ -5,7 +5,7 @@ namespace ifst.API.ifst.Application.Exceptions;
 
 public static class ValidationExtensions
 {
-    public static void ThrowIfNull<T>(this T entity, string displayName) where T : class
+    public static void ThrowIfNull<T>(this T entity, string displayName)
     {
         if (entity == null)
         {
@@ -17,4 +17,5 @@ public static class ValidationExtensions
             throw new ValidationException("Validation Error", errors);
         }
     }
+    
 }

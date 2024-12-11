@@ -18,15 +18,13 @@ public class NewsletterController : ControllerBase
     private readonly INewsletterRepository _newsletterRepository;
     private readonly INewsletterService _newsletterService;
     private readonly FileService _fileService;
-    private readonly IGeneralServices _generalServices;
 
     public NewsletterController(INewsletterService newsletterService, INewsletterRepository newsletterRepository,
-        FileService fileService, IGeneralServices generalServices)
+        FileService fileService)
     {
         _newsletterService = newsletterService;
         _newsletterRepository = newsletterRepository;
         _fileService = fileService;
-        _generalServices = generalServices;
     }
 
     [HttpGet("GetNewsletter")]

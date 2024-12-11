@@ -20,14 +20,12 @@ public class InstituteController : ControllerBase
 
     private readonly IInstituteService _instituteService;
     private readonly FileService _fileService;
-    private readonly IGeneralServices _generalServices;
 
     public InstituteController(IInstituteService instituteService,
-        FileService fileService, IGeneralServices generalServices)
+        FileService fileService)
     {
         _instituteService = instituteService;
         _fileService = fileService;
-        _generalServices = generalServices;
     }
 
     #endregion

@@ -7,8 +7,8 @@ public interface IProjectService
 {
     Task<ProjectDto> AddProjectAsync(GetObjectByIdDto institute, CreateProjectDto projectDto);
 
-    // Task<IEnumerable<Newsletter>> GetProjectsAsync(FilterAndSortPaginatedOptions options);
-    //
+    Task<IEnumerable<ProjectsName>> GetProjectsAsync();
+    
     Task<ProjectDetailDto> GetProject (GetObjectByIdDto projectDto);
     
     Task UpdateProject(GetObjectByIdDto projectDto, InstituteUpdateProjectDto newsletterDto);

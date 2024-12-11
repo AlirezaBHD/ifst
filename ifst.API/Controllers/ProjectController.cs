@@ -12,7 +12,7 @@ public class ProjectController : ControllerBase
 
     private readonly IProjectService _projectService;
 
-    public ProjectController(IGeneralServices generalServices, IProjectService projectService)
+    public ProjectController(IProjectService projectService)
     {
         _projectService = projectService;
     }
@@ -56,6 +56,7 @@ public class ProjectController : ControllerBase
 
     #endregion
 
+    
     #region Update Project
 
     [HttpPut("UpdateProject/{Id}")]
@@ -64,6 +65,17 @@ public class ProjectController : ControllerBase
     {
         await _projectService.UpdateProject(projectId, projectDto);
         return Ok(".پروژه با موفقیت ویرایش شد");
+    }
+
+    #endregion
+
+    #region GetProjects
+
+    [HttpGet("GetAllProjects")]
+    public async Task<IActionResult> GetAllProjectsName()
+    {
+        var projects =await _projectService.GetProjectsAsync();
+        return Ok(projects);
     }
 
     #endregion

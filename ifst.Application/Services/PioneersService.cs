@@ -11,11 +11,11 @@ public class PioneersService : IPioneersService
 {
     private readonly IMapper _mapper;
     private readonly FileService _fileService;
-    private readonly IGeneralServices _generalServices;
+    private readonly IGeneralServices<Pioneers> _generalServices;
     private readonly IPioneersRepository _pioneersRepository;
 
     public PioneersService(IPioneersRepository pioneersRepository, IMapper mapper,
-        FileService fileService, IGeneralServices generalServices)
+        FileService fileService, IGeneralServices<Pioneers> generalServices)
     {
         _pioneersRepository = pioneersRepository;
         _mapper = mapper;
@@ -31,7 +31,7 @@ public class PioneersService : IPioneersService
         pioneer.ImagePath = path;
 
         await _pioneersRepository.AddAsync(pioneer);
-        await _generalServices.SaveAsync();
+        await _pioneersRepository.SaveAsync();
 
         var pioneerDtoObj = _mapper.Map<PioneersDto>(pioneer);
         return pioneerDtoObj;
@@ -47,22 +47,23 @@ public class PioneersService : IPioneersService
 
     public async Task<PaginatedResult<PioneersDto>> GetAllPioneersAsync(GetAllPioneersDto getPioneersDto)
     {
+        // var totalPioneers = await _pioneersRepository.GetAllAsync();
         var totalPioneers = await _pioneersRepository.GetAllAsync();
         var totalCount = totalPioneers.Count();
 
-        var paginatedPioneers = await _pioneersRepository.GetAllPaginated(null, pageNumber: getPioneersDto.Page,
-            pageSize: getPioneersDto.PageSize);
+        var paginatedPioneers = await _pioneersRepository.GetAllPaginated<PioneersDto>(getPioneersDto.Page,getPioneersDto.PageSize);
             
-        var dtoResult = new PaginatedResult<PioneersDto>
-        {
-                
-            Items = paginatedPioneers.Items.Select(p => _mapper.Map<PioneersDto>(p)).ToList(),
-            TotalCount = paginatedPioneers.TotalCount,
-            PageNumber = paginatedPioneers.PageNumber,
-            PageSize = paginatedPioneers.PageSize
-        };
+        // var dtoResult = new PaginatedResult<PioneersDto>
+        // {
+        //         
+        //     Items = paginatedPioneers.Items.Select(p => _mapper.Map<PioneersDto>(p)).ToList(),
+        //     TotalCount = paginatedPioneers.TotalCount,
+        //     PageNumber = paginatedPioneers.PageNumber,
+        //     PageSize = paginatedPioneers.PageSize
+        // };
         
-        return dtoResult;
+        
+        return paginatedPioneers;
 
     }
 
@@ -70,7 +71,7 @@ public class PioneersService : IPioneersService
     {
         var pioneer =await _pioneersRepository.GetByIdAsync(pioneerDto.Id);
         _pioneersRepository.Remove(pioneer);
-        await _generalServices.SaveAsync();
+        await _pioneersRepository.SaveAsync();
     }
 
     public async Task<PioneersDto> UpdateNewsletterAsync(int id, UpdatePioneerDto pioneerDto)
@@ -89,7 +90,7 @@ public class PioneersService : IPioneersService
         
 
         _pioneersRepository.Update(updatedPioneer);
-        await _generalServices.SaveAsync();
+        await _pioneersRepository.SaveAsync();
         return updatedPioneerDto;
     }
 

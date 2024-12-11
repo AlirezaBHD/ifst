@@ -13,11 +13,11 @@ namespace ifst.API.ifst.Application.Services;
 public class NewsletterService : INewsletterService
 {
     private readonly IMapper _mapper;
-    private readonly IGeneralServices _generalServices;
+    private readonly IGeneralServices<Newsletter> _generalServices;
     private readonly INewsletterRepository _newsletterRepository;
     private readonly FileService _fileService;
 
-    public NewsletterService(IMapper mapper, IGeneralServices generalServices,
+    public NewsletterService(IMapper mapper, IGeneralServices<Newsletter> generalServices,
         INewsletterRepository newsletterRepository, FileService fileService)
     {
         _newsletterRepository = newsletterRepository;
@@ -42,14 +42,14 @@ public class NewsletterService : INewsletterService
         newsletter.FilePath = filePath;
 
         await _newsletterRepository.AddAsync(newsletter);
-        await _generalServices.SaveAsync();
+        await _newsletterRepository.SaveAsync();
         var dto = _mapper.Map<NewsletterDto>(newsletter);
         return dto;
     }
 
     public async Task<PaginatedResult<Newsletter>> GetNewslettersAsync(FilterAndSortPaginatedOptions options)
     {
-        var paginatedResult = await _newsletterRepository.GetFilteredAndSortedPaginated(options);
+        var paginatedResult = await _newsletterRepository.GetFilteredAndSortedPaginated<Newsletter>(options);
         // var mappedItems =_mapper.Map<IEnumerable<Newsletter>, IEnumerable<NewsletterDto>>(paginatedResult.Items);
         //
         //
@@ -87,7 +87,7 @@ public class NewsletterService : INewsletterService
         }
 
         _newsletterRepository.Update(updatedNewsletter);
-        await _generalServices.SaveAsync();
+        await _newsletterRepository.SaveAsync();
         return updatedNewsletter;
     }
 
@@ -95,6 +95,6 @@ public class NewsletterService : INewsletterService
     {
         var newsletterObj = await _newsletterRepository.GetByIdAsync(newsletter.Id);
         _newsletterRepository.Remove(newsletterObj);
-        await _generalServices.SaveAsync();
+        await _newsletterRepository.SaveAsync();
     }
 }

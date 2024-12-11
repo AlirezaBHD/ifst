@@ -11,9 +11,9 @@ public class AlbumService : IAlbumService
 {
     private readonly IAlbumRepository _albumRepository;
     private readonly IMapper _mapper;
-    private readonly IGeneralServices _generalServices;
+    private readonly IGeneralServices<Album> _generalServices;
 
-    public AlbumService(IAlbumRepository albumRepository, IMapper mapper, IGeneralServices generalServices)
+    public AlbumService(IAlbumRepository albumRepository, IMapper mapper, IGeneralServices<Album> generalServices)
     {
         _albumRepository = albumRepository;
         _mapper = mapper;
@@ -26,46 +26,46 @@ public class AlbumService : IAlbumService
 
         await _albumRepository.AddAsync(album);
 
-        await _generalServices.SaveAsync();
+        await _albumRepository.SaveAsync();
 
         return _mapper.Map<AlbumDto>(album);
     }
 
     public async Task<AlbumDto> GetAlbumByIdAsync(int id)
     {
-        var album = await _albumRepository.GetByIdWithIncludesAsync(id, includes:album => album.Images);
-        var albumDtoObj = _mapper.Map<AlbumDto>(album);
-        return albumDtoObj;
+        var album = await _albumRepository.GetByIdAsyncLimited<AlbumDto>(id);
+        return album;
     }
 
     public async Task DeleteAlbumByIdAsync(int id)
     {
         var album = await _albumRepository.GetByIdAsync(id);
         _albumRepository.Remove(album);
-        await _generalServices.SaveAsync();
+        await _albumRepository.SaveAsync();
     }
 
     public async Task UpdateAlbum(EditAlbumDto albumDto)
     {
         var album = await _albumRepository.GetByIdAsync(albumDto.Id);
         album.Title = albumDto.Title;
+        album.Title = albumDto.Category;
         _albumRepository.Update(album);
-        await _generalServices.SaveAsync();
+        await _albumRepository.SaveAsync();
     }
 
     public async Task<PaginatedResult<ListedAlbumsDto>> GetAlbumsAsync(FilterAndSortPaginatedOptions options)
     {
-        var paginatedResult = await _albumRepository.GetFilteredAndSortedPaginated(options);
-        var mappedItems =_mapper.Map<IEnumerable<Album>, IEnumerable<ListedAlbumsDto>>(paginatedResult.Items);
+        var paginatedResult = await _albumRepository.GetFilteredAndSortedPaginated<ListedAlbumsDto>(options);
+        // var mappedItems =_mapper.Map<IEnumerable<Album>, IEnumerable<ListedAlbumsDto>>(paginatedResult.Items);
         
-        var result = new PaginatedResult<ListedAlbumsDto>
-        {
-            Items = mappedItems,
-            TotalCount = paginatedResult.TotalCount,
-            PageNumber = paginatedResult.PageNumber,
-            PageSize = paginatedResult.PageSize,
-        };
-        return result;
+        // var result = new PaginatedResult<ListedAlbumsDto>
+        // {
+        //     Items = mappedItems,
+        //     TotalCount = paginatedResult.TotalCount,
+        //     PageNumber = paginatedResult.PageNumber,
+        //     PageSize = paginatedResult.PageSize,
+        // };
+        return paginatedResult;
 
     }
 

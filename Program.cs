@@ -43,7 +43,7 @@ builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 //
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 //
-builder.Services.AddScoped<IGeneralServices, GeneralServices>();
+builder.Services.AddScoped(typeof(IGeneralServices<>), typeof(GeneralServices<>));
 builder.Services.AddScoped<IAlbumService, AlbumService>();
 builder.Services.AddScoped<IPioneersService, PioneersService>();
 builder.Services.AddScoped<IImageService, ImageService>();
@@ -56,7 +56,6 @@ builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped(typeof(IPatchService<,>), typeof(PatchService<,>));
 builder.Services.AddValidatorsFromAssemblyContaining<CreateAlbumValidator>();
 builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
 
 
 //AutoMapper
