@@ -44,14 +44,26 @@ public class ProjectController : ControllerBase
 
     #endregion
 
-    
+
     #region Delete Project
-    
+
     [HttpDelete("DeleteProject/{Id}")]
     public async Task<IActionResult> DeleteProject([FromRoute] GetObjectByIdDto projectDto)
     {
         await _projectService.DeleteProject(projectDto);
         return Ok(".پروژه با موفقیت حذف شد");
+    }
+
+    #endregion
+
+    #region Update Project
+
+    [HttpPut("UpdateProject/{Id}")]
+    public async Task<IActionResult> UpdateProject([FromRoute] GetObjectByIdDto projectId,
+        [FromForm] InstituteUpdateProjectDto projectDto)
+    {
+        await _projectService.UpdateProject(projectId, projectDto);
+        return Ok(".پروژه با موفقیت ویرایش شد");
     }
 
     #endregion
