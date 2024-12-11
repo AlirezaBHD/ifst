@@ -9,9 +9,10 @@ public static class CommonValidator
 
     public static IRuleBuilderOptions<T, TProperty> CommonRules<T, TProperty>(
         this IRuleBuilder<T, TProperty> ruleBuilder,
+        string? fieldName = null,
         Func<TProperty, bool> customValidation = null,
-        string errorMessage = null,
-        string fieldName = null)
+        string errorMessage = null
+        )
     {
         var builder = ruleBuilder
             .NotNull().WithMessage($"{fieldName ?? "فیلد"} الزامی است.")
@@ -74,7 +75,7 @@ public static class CommonValidator
         string fieldName)
     {
         return ruleBuilder
-            .CommonRules(null, null, fieldName)
+            .CommonRules(fieldName, null,null )
             .Length(minLength, maxLength)
             .WithMessage($"{fieldName} باید بین {minLength} تا {maxLength} کاراکتر باشد.");
     }
@@ -188,19 +189,31 @@ public static class CommonValidator
 
     #region Common Int Rule
 
-    public static IRuleBuilderOptions<T, int> CommonIntRules<T>(
-        this IRuleBuilder<T, int> ruleBuilder,
+    public static IRuleBuilderOptions<T, string> CommonIntRules<T>(
+        this IRuleBuilder<T, string> ruleBuilder,
         int minValue,
         int maxValue,
         string fieldName)
     {
         return ruleBuilder
-            .GreaterThanOrEqualTo(minValue).WithMessage($"{fieldName} باید بزرگتر یا مساوی {minValue} باشد.")
-            .LessThanOrEqualTo(maxValue).WithMessage($"{fieldName} باید کوچکتر یا مساوی {maxValue} باشد.");
+            .Must(value => int.TryParse(value, out _))
+            .WithMessage($"{fieldName} باید یک عدد معتبر باشد.")
+            .Must(value =>
+            {
+                if (int.TryParse(value, out var number))
+                {
+                    return number >= minValue && number <= maxValue;
+                }
+                return false;
+            })
+            .WithMessage($"{fieldName} باید عددی بین {minValue} و {maxValue} باشد.");
     }
+
+
 
     #endregion
 
+    
     #region Common Bool Rule
 
     public static IRuleBuilderOptions<T, string> CommonBoolRule<T>(
