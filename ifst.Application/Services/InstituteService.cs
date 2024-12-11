@@ -53,7 +53,7 @@ public class InstituteService : IInstituteService
 
     public async Task<InstituteDto> GetInstitute(int id)
     {
-        var institute = await _instituteRepository.GetByIdWithIncludesAsync(id, i=>i.Projects);
+        var institute = await _instituteRepository.GetByIdWithIncludesAsync(id, condition:i => i.Confirmed == true, includes:i=>i.Projects);
         var result = _mapper.Map<InstituteDto>(institute);
         return result;
     }
