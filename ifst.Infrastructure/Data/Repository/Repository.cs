@@ -37,7 +37,7 @@ namespace ifst.API.ifst.Infrastructure.Data.Repository
             obj.ThrowIfNull(_displayName);
             return obj;
         }
-        
+
         public async Task<T> GetFirstOrNullAsync()
         {
             var obj = await _entities.FirstOrDefaultAsync();
@@ -91,13 +91,11 @@ namespace ifst.API.ifst.Infrastructure.Data.Repository
                 PageNumber = pageNumber,
                 PageSize = pageSize
             };
-            
         }
-        
-         public async Task<PaginatedResult<T>> GetFilteredAndSortedPaginated(
+
+        public async Task<PaginatedResult<T>> GetFilteredAndSortedPaginated(
             FilterAndSortPaginatedOptions options)
         {
-            
             var filterCriteria = new DynamicFilterCriteria<T>();
             foreach (var filter in options.Filters)
             {
@@ -105,18 +103,18 @@ namespace ifst.API.ifst.Infrastructure.Data.Repository
                 {
                     var errors = new List<ValidationFailure>
                     {
-                        new ValidationFailure("Invalid Keyword","کلید مورد نظر یافت نشد")
+                        new ValidationFailure("Invalid Keyword", "کلید مورد نظر یافت نشد")
                     };
-            
+
                     throw new ValidationException("Validation Error", errors);
                 }
-                    
+
                 if (!string.IsNullOrWhiteSpace(filter.Value))
                 {
                     filterCriteria.AddFilter(filter.Key, filter.Value!);
                 }
             }
-                
+
             var predicate = filterCriteria.GeneratePredicate();
             var query = _entities.AsQueryable();
 
@@ -133,11 +131,11 @@ namespace ifst.API.ifst.Infrastructure.Data.Repository
                 {
                     var errors = new List<ValidationFailure>
                     {
-                        new ValidationFailure("Invalid Keyword", $"Invalid Keyword '{options.SortBy}' for {typeof(T).Name} ")
+                        new ValidationFailure("Invalid Keyword",
+                            $"Invalid Keyword '{options.SortBy}' for {typeof(T).Name} ")
                     };
 
                     throw new ValidationException("Validation Error", errors);
-
                 }
 
                 var parameter = Expression.Parameter(typeof(T), "x");
@@ -154,7 +152,8 @@ namespace ifst.API.ifst.Infrastructure.Data.Repository
 
             // Pagination
             var totalCount = await query.CountAsync();
-            var items = await query.Skip((options.PageNumber - 1) * options.PageSize).Take(options.PageSize).ToListAsync();
+            var items = await query.Skip((options.PageNumber - 1) * options.PageSize).Take(options.PageSize)
+                .ToListAsync();
 
             return new PaginatedResult<T>
             {
@@ -167,7 +166,8 @@ namespace ifst.API.ifst.Infrastructure.Data.Repository
 
         #region Get Relational Objects with include
 
-        public async Task<T> GetByIdWithIncludesAsync(int id, params Expression<Func<T, object>>[] includes)
+        public async Task<T> GetByIdWithIncludesAsync(int id,
+            Expression<Func<T, bool>> condition = null, params Expression<Func<T, object>>[] includes)
         {
             IQueryable<T> query = _context.Set<T>();
 
@@ -176,13 +176,26 @@ namespace ifst.API.ifst.Infrastructure.Data.Repository
                 query = query.Include(include);
             }
 
+            if (condition != null)
+            {
+                query = query.Where(condition);
+            }
+
             var obj = await query.FirstOrDefaultAsync(e => EF.Property<int>(e, "Id") == id);
             obj.ThrowIfNull(_displayName);
             return obj;
         }
 
         #endregion
-        
 
+
+        #region Save Async
+
+        public async Task SaveAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
+
+        #endregion
     }
 }
