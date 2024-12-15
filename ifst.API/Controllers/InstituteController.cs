@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using ifst.API.ifst.Application.DTOs;
+using ifst.API.ifst.Application.Extensions;
 using ifst.API.ifst.Application.FluentValidation.ValidationExtensions;
 using ifst.API.ifst.Application.Interfaces;
 using ifst.API.ifst.Application.Interfaces.ServiceInterfaces;
@@ -35,15 +36,15 @@ public class InstituteController : ControllerBase
     [HttpPost("AddInstitute")]
     public async Task<IActionResult> AddInstitute([FromForm] CreateInstituteDto instituteDto)
     {
-        var newsletterObj = await _instituteService.AddInstitute(instituteDto);
-        return Ok(newsletterObj);
+        var instituteObj = await _instituteService.AddInstitute(instituteDto);
+        return Ok(instituteObj);
     }
 
     #endregion
 
     #region Get Institute
 
-    [HttpGet("GetInstitute{instituteDto.Id}")]
+    [HttpGet("GetInstitute/{instituteDto.Id}")]
     public async Task<IActionResult> GetInstitute([FromRoute] GetObjectByIdDto instituteDto)
     {
         var instituteObj = await _instituteService.GetInstitute(instituteDto.Id);
@@ -91,11 +92,11 @@ public class InstituteController : ControllerBase
     
     #region Get All Institutes
 
-    [HttpGet("GetAllInstitutes")]
-    public async Task<IActionResult> GetAllInstitutes()
+    [HttpGet("GetAllInstitutesPginated")]
+    public async Task<IActionResult> GetAllInstitutesPginated([FromQuery] FilterAndSortPaginatedOptions options)
     {
-        var newsletterObj = await _instituteService.GetAllInstitutes();
-        return Ok(newsletterObj);
+        var institutesObj = await _instituteService.GetAllInstitutes(options.PageNumber , options.PageSize);
+        return Ok(institutesObj);
     }
 
 
@@ -111,5 +112,31 @@ public class InstituteController : ControllerBase
     }
 
     #endregion
+
+    #region Get All Institutes and Projects
+    
+    [HttpGet("GetAllInstitutesAndProjects")]
+    public async Task<IActionResult> GetAllInstitutesAndProjects()
+    {
+        var institutes = await _instituteService.GetAllInstitutesAndProjects();
+        return Ok(institutes);
+    }
+
+    #endregion
+
+    #region Update Institute
+
+    
+
+    
+    [HttpPut("UpdateInstitute/{Id}")]
+    public async Task<IActionResult> UpdateInstitute([FromRoute] GetObjectByIdDto instituteId, [FromForm] CreateInstituteDto instituteDto)
+    {
+        await _instituteService.UpdateInstitute(instituteId.Id , instituteDto);
+        return Ok($".بنیاد {instituteDto.Name} با موفقیت ویرایش داده شد");
+    }
+    
+    #endregion
+
     
 }
