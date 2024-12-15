@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Linq.Expressions;
+using AutoMapper;
 using ifst.API.ifst.Application.Interfaces;
 using ifst.API.ifst.Application.Interfaces.ServiceInterfaces;
 using ifst.API.ifst.Infrastructure.FileManagement;
@@ -67,6 +68,28 @@ public class GeneralServices<TEntity> : IGeneralServices<TEntity>
 
         _repository.Update(entity);
         await _repository.SaveAsync();
+    }
+
+    #endregion
+
+    
+    #region Get Object By Id
+
+    public async Task<TDto> GetObjectById<TDto>(int id)
+    {
+        var dtoObject = await _repository.GetByIdAsyncLimited<TDto>(id);
+        return dtoObject;
+    }
+
+    #endregion
+    
+    
+    #region Get All Objects
+
+    public async Task<IEnumerable<TDto>> GetAllObjects<TDto>(Expression<Func<TEntity, bool>>? externalPredicate = null, Expression<Func<TEntity, object>>[] includes = null)
+    {
+        var dtoObject = await _repository.GetAllAsyncLimited<TDto>(externalPredicate, includes);
+        return dtoObject;
     }
 
     #endregion
