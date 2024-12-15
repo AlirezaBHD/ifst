@@ -65,16 +65,10 @@ public class ProjectService : IProjectService
 
         await _generalServices.UpdateEntityAsync(projectDtoObj, updateProjectDto, files);
     }
-
-
+    
     public async Task<IEnumerable<ProjectsName>> GetProjectsAsync()
     {
-        // var projectsDto = _mapper.Map<IEnumerable<ProjectsName>>(projects);
-        // var projectsDto = projects.Select(p => _mapper.Map<ProjectsName>(p));
-
-
-        // var projects = await _projectRepository.GetAllAsync(p => _mapper.Map<ProjectsName>(p));
-        // return projects;
-        throw new NotImplementedException();
+        var projectDto = await _generalServices.GetAllObjects<ProjectsName>(externalPredicate: p => p.Status == ProjectStatus.Approved);
+        return projectDto;
     }
 }
