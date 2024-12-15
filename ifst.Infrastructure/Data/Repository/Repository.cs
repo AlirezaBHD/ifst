@@ -9,6 +9,7 @@ using ifst.API.ifst.Application.Interfaces;
 using ifst.API.ifst.Application.Exceptions;
 using ifst.API.ifst.Application.Extensions;
 using ifst.API.ifst.Domain.Common;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace ifst.API.ifst.Infrastructure.Data.Repository
@@ -80,19 +81,7 @@ namespace ifst.API.ifst.Infrastructure.Data.Repository
         }
 
         #endregion
-        
-        #region Get by Id Async Limited
 
-        public async Task<T> GetByIdAsyncLimited(int id, Expression<Func<T, bool>>? predicate = null)
-        {
-            var obj = await _entities.FindAsync(id);
-            obj.ThrowIfNull(_displayName);
-            return obj;
-        }
-
-
-        #endregion
-        
         #region Get Filtered And Sorted Paginated
 
         public async Task<PaginatedResult<TDto>> GetFilteredAndSortedPaginated<TDto>(
@@ -257,16 +246,24 @@ namespace ifst.API.ifst.Infrastructure.Data.Repository
 
         #endregion
 
-        #region Get All Async
+        #region Get All Async Limited Includes!
 
         public async Task<IEnumerable<TDto>> GetAllAsyncLimited<TDto>(
-            Expression<Func<T, bool>>? externalPredicate = null)
+            Expression<Func<T, bool>>? externalPredicate = null, Expression<Func<T, object>>[] includes = null)
         {
             var query = _entities.AsQueryable();
 
             if (externalPredicate != null)
             {
                 query = query.Where(externalPredicate);
+            }
+
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
             }
 
             var result = await query.ProjectTo<TDto>(_mapper.ConfigurationProvider).ToListAsync();
@@ -286,8 +283,9 @@ namespace ifst.API.ifst.Infrastructure.Data.Repository
         }
 
         #endregion
-        
+
         //ContactInformation
+
         #region Get FirstOrDefault Async
 
         public async Task<T> GetFirstOrDefaultAsync()
@@ -308,6 +306,5 @@ namespace ifst.API.ifst.Infrastructure.Data.Repository
         }
 
         #endregion
-
     }
 }

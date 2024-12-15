@@ -90,7 +90,7 @@ namespace ifst.API.ifst.Application.Interfaces
         #region Get All Async
 
         Task<IEnumerable<TDto>> GetAllAsyncLimited<TDto>(
-            Expression<Func<T, bool>>? externalPredicate = null);
+            Expression<Func<T, bool>>? externalPredicate = null, Expression<Func<T, object>>[] includes = null);
 
         #endregion
 
