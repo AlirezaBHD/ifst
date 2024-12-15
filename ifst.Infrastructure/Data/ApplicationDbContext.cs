@@ -18,6 +18,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<ContactInformation> ContactInformation { get; set; }
     public DbSet<Newsletter> Newsletter { get; set; }
     public DbSet<Institute> Institute { get; set; }
+    public DbSet<PublicImage> PublicImage { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -77,6 +78,13 @@ public class ApplicationDbContext : DbContext
             .Property(p => p.Status)
             .HasDefaultValue(ProjectStatus.NeedsRevision);
 
+        modelBuilder.Entity<PublicImage>(entity =>
+        {
+            entity.HasKey(pi => pi.Id);
+            entity.Property(pi => pi.Path);
+            entity.Property(pi => pi.Description);
+        });
+        
         base.OnModelCreating(modelBuilder);
         
     }

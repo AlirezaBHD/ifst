@@ -8,7 +8,7 @@ public class GetObjectByIdValidator: AbstractValidator<GetObjectByIdDto>
 {
     public GetObjectByIdValidator()
     {
-        RuleFor(a => a.Id).NotEmpty().WithMessage(".شناسه نمیتواند خالی باشد").NotNull().WithMessage(".شناسه الزامی است").ExclusiveBetween(1, 200000000).WithMessage("شناسه باید بین 1 و 200000000");
+        RuleFor(a => a.Id).NotEmpty().WithMessage(".شناسه نمیتواند خالی باشد").NotNull().WithMessage(".شناسه الزامی است").ExclusiveBetween(0, 200000000).WithMessage("شناسه باید بین 1 و 200000000");
         
     }
 }

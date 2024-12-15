@@ -288,7 +288,6 @@ namespace ifst.API.ifst.Infrastructure.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ImagePath")
-                        .IsRequired()
                         .HasMaxLength(75)
                         .HasColumnType("nvarchar(75)");
 
@@ -322,6 +321,26 @@ namespace ifst.API.ifst.Infrastructure.Data.Migrations
                     b.HasIndex("InstituteId");
 
                     b.ToTable("Project");
+                });
+
+            modelBuilder.Entity("ifst.API.ifst.Domain.Entities.PublicImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PublicImage");
                 });
 
             modelBuilder.Entity("ifst.API.ifst.Domain.Entities.Image", b =>
