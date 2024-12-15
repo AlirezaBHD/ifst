@@ -9,8 +9,11 @@ public interface IInstituteService
     Task<InstituteDto> GetInstitute(int id);
     Task PatchInstitute(int id,JsonPatchDocument<PatchInstitutesDto> patchDoc);
     Task InstituteStatus(GetObjectByIdDto instituteDto, PatchInstitutesStatusDto institutesStatusDto);
-    // Task<InstituteDto> UpdateInstitute(CreateInstituteDto createAlbumDto);
-    Task<IEnumerable<MainListedInstitutesDto>> GetAllInstitutes();
+    Task UpdateInstitute(int id, CreateInstituteDto instituteDto);
+    Task<PaginatedResult<MainListedInstitutesDto>> GetAllInstitutes(int pageNumber,
+        int pageSize);
     Task<IEnumerable<ListedInstitutesDto>> GetAllConfirmedInstitutes();
+
+    Task<IEnumerable<InstituteDto>> GetAllInstitutesAndProjects();
 
 }

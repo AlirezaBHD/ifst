@@ -59,15 +59,24 @@ public class InstituteService : IInstituteService
 
     #endregion
 
+    #region Update Institute
+
+    public async Task UpdateInstitute(int id ,CreateInstituteDto instituteDto)
+    {
+        var instutute = await _instituteRepository.GetByIdAsync(id);
+        _generalServices.UpdateEntityAsync(instutute, instituteDto );
+    }
+
+    #endregion
     
     #region Get All Institutes
 
-    public async Task<IEnumerable<MainListedInstitutesDto>> GetAllInstitutes()
+    public async Task<PaginatedResult<MainListedInstitutesDto>> GetAllInstitutes(int pageNumber,
+        int pageSize)
     {
-        // var institutes = await _instituteRepository.GetAllAsync();
-        var institutes = await _instituteRepository.GetAllAsync();
-        var institutesDto = _mapper.Map<IEnumerable<Institute>,IEnumerable<MainListedInstitutesDto>>(institutes);
-        return institutesDto;
+        
+        var institutes = await _instituteRepository.GetAllPaginated<MainListedInstitutesDto>(pageNumber, pageSize);
+        return institutes;
     }
 
     #endregion
@@ -115,6 +124,17 @@ public class InstituteService : IInstituteService
     }
 
     
+
+    #endregion
+
+
+    #region Get All Institutes And Projects
+
+    public async Task<IEnumerable<InstituteDto>> GetAllInstitutesAndProjects()
+    {
+        var institutes = await _instituteRepository.GetAllInstitutesAndProjects();
+        return institutes;
+    }
 
     #endregion
 }
