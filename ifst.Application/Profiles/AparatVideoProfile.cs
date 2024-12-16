@@ -9,6 +9,7 @@ public class AparatVideoProfile : Profile
     public AparatVideoProfile()
     {
         CreateMap<CreateAparatVideoDto, AparatVideo>();
+        CreateMap<AparatVideo, AparatVideoDto>();
 
     }
 }
