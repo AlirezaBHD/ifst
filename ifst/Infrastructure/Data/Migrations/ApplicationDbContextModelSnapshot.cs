@@ -42,6 +42,27 @@ namespace ifst.API.ifst.Infrastructure.Data.Migrations
                     b.ToTable("Albums");
                 });
 
+            modelBuilder.Entity("ifst.API.ifst.Domain.Entities.AparatVideo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VideoScript")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AparatVideos");
+                });
+
             modelBuilder.Entity("ifst.API.ifst.Domain.Entities.ContactInformation", b =>
                 {
                     b.Property<int>("Id")
