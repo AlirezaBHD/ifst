@@ -50,7 +50,7 @@ public class NoteService : INoteService
         await _noteRepository.SaveAsync();
     }
 
-    public async Task<PaginatedResult<ListedNoteDto>> GetNewslettersAsync(FilterAndSortPaginatedOptions options)
+    public async Task<PaginatedResult<ListedNoteDto>> GetNotesAsync(FilterAndSortPaginatedOptions options)
     {
         var paginatedResult = await _noteRepository.GetFilteredAndSortedPaginated<ListedNoteDto>(options);
         

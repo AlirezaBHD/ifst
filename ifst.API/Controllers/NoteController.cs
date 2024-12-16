@@ -41,7 +41,7 @@ public class NoteController: ControllerBase
     [HttpGet("GetAllNotes")]
     public async Task<IActionResult> GetAllNotes([FromQuery] FilterAndSortPaginatedOptions options)
     {
-        var result = await _noteService.GetNewslettersAsync(options);
+        var result = await _noteService.GetNotesAsync(options);
         return Ok(result);
     }
 }
