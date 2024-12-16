@@ -1,4 +1,5 @@
-﻿using ifst.API.ifst.Application.DTOs.AparatVideoDto;
+﻿using ifst.API.ifst.Application.DTOs;
+using ifst.API.ifst.Application.DTOs.AparatVideoDto;
 using ifst.API.ifst.Application.Interfaces.ServiceInterfaces;
 using ifst.API.ifst.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -29,5 +30,17 @@ public class AparatVideoController : ControllerBase
         return Ok(aparatVideoDto);
     }
 
+    #endregion
+    
+    #region Get AparatVideo
+    
+    [HttpGet("GetAparatVideo/{Id}")]
+    public async Task<IActionResult> GetAparatVideo([FromRoute] GetObjectByIdDto aparatVideoId)
+    {
+        var id = aparatVideoId.Id;
+        var aparatVideoDto = await _aparatVideoService.GetAparatVideoAsync(id);
+        return Ok(aparatVideoDto);
+    }
+    
     #endregion
 }
