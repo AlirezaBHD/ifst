@@ -12,4 +12,6 @@ public interface IAparatVideoService
     Task DeleteAparatVideoAsync(int id);
     
     Task UpdateAparatVideoAsync(int id, CreateAparatVideoDto aparatVideoDto);
+
+    Task<IEnumerable<AparatVideoDto>> GetAparatVideoList();
 }
