@@ -88,7 +88,6 @@ namespace ifst.API.ifst.Infrastructure.Data.Repository
             FilterAndSortPaginatedOptions options,
             Expression<Func<T, bool>>? externalPredicate = null)
         {
-            // ساختن پردیکت داخلی
             var filterCriteria = new DynamicFilterCriteria<T>();
             foreach (var filter in options.Filters)
             {
@@ -110,10 +109,8 @@ namespace ifst.API.ifst.Infrastructure.Data.Repository
 
             var internalPredicate = filterCriteria.GeneratePredicate();
 
-            // شروع ساخت query
             var query = _entities.AsQueryable();
 
-            // ترکیب پردیکت‌ها (داخلی و خارجی)
             if (internalPredicate != null && externalPredicate != null)
             {
                 var parameter = Expression.Parameter(typeof(T), "x");
@@ -134,7 +131,6 @@ namespace ifst.API.ifst.Infrastructure.Data.Repository
                 query = query.Where(externalPredicate);
             }
 
-            // Validation و اعمال SortBy
             if (!string.IsNullOrWhiteSpace(options.SortBy))
             {
                 var propertyInfo = typeof(T).GetProperty(options.SortBy);
@@ -161,10 +157,8 @@ namespace ifst.API.ifst.Infrastructure.Data.Repository
                 query = (IQueryable<T>)orderByMethod.Invoke(null, new object[] { query, lambda })!;
             }
 
-            // Pagination
             var totalCount = await query.CountAsync();
 
-            // نگاشت به TDto با ProjectTo
             var items = await query
                 .Skip((options.PageNumber - 1) * options.PageSize)
                 .Take(options.PageSize)
