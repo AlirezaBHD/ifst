@@ -62,4 +62,14 @@ public class AparatVideoService : IAparatVideoService
     }
 
     #endregion
+
+    #region Update AparatVideo
+
+    public async Task UpdateAparatVideoAsync(int id, CreateAparatVideoDto aparatVideoDto)
+    {
+        var aparatVideoEntity = await _aparatVideoRepository.GetByIdAsync(id);
+        await _generalServices.UpdateEntityAsync(aparatVideoEntity, aparatVideoDto);
+    }
+
+    #endregion
 }
