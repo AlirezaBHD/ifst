@@ -10,4 +10,6 @@ public interface IAparatVideoService
     Task<AparatVideoDto> GetAparatVideoAsync(int id);
     
     Task DeleteAparatVideoAsync(int id);
+    
+    Task UpdateAparatVideoAsync(int id, CreateAparatVideoDto aparatVideoDto);
 }
