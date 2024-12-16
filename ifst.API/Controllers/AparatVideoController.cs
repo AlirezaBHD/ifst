@@ -55,4 +55,17 @@ public class AparatVideoController : ControllerBase
     }
 
     #endregion
+
+    #region Update AparatVideo
+
+    [HttpPut("UpdateAparatVideo/{Id}")]
+    public async Task<IActionResult> UpdateAparatVideo([FromRoute] GetObjectByIdDto aparatVideoId,
+        [FromBody] CreateAparatVideoDto aparatVideoDto)
+    {
+        var id = aparatVideoId.Id;
+        await _aparatVideoService.UpdateAparatVideoAsync(id, aparatVideoDto);
+        return Ok($".ویدیو آپارات شماره {id} با موافقت ویرایش داده شد");
+    }
+
+    #endregion
 }
