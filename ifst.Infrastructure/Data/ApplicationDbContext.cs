@@ -20,6 +20,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Institute> Institute { get; set; }
     public DbSet<PublicImage> PublicImage { get; set; }
     public DbSet<News> News { get; set; }
+    public DbSet<AparatVideo> AparatVideos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -93,6 +94,12 @@ public class ApplicationDbContext : DbContext
             entity.Property(n => n.Summery);
             entity.Property(n => n.Body);
             entity.Property(n => n.Date);
+        });
+        modelBuilder.Entity<AparatVideo>(entity =>
+        {
+            entity.HasKey(av => av.Id);
+            entity.Property(av => av.Title);
+            entity.Property(av => av.VideoScript);
         });
         
         base.OnModelCreating(modelBuilder);
