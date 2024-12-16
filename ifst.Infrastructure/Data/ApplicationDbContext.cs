@@ -19,6 +19,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Newsletter> Newsletter { get; set; }
     public DbSet<Institute> Institute { get; set; }
     public DbSet<PublicImage> PublicImage { get; set; }
+    public DbSet<News> News { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -83,6 +84,15 @@ public class ApplicationDbContext : DbContext
             entity.HasKey(pi => pi.Id);
             entity.Property(pi => pi.Path);
             entity.Property(pi => pi.Description);
+        });
+        modelBuilder.Entity<News>(entity =>
+        {
+            entity.HasKey(n => n.Id);
+            entity.Property(n => n.Title);
+            entity.Property(n => n.ImagePath);
+            entity.Property(n => n.Summery);
+            entity.Property(n => n.Body);
+            entity.Property(n => n.Date);
         });
         
         base.OnModelCreating(modelBuilder);
