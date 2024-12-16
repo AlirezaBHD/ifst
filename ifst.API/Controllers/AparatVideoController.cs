@@ -20,17 +20,6 @@ public class AparatVideoController : ControllerBase
     }
 
     #endregion
-
-    #region Post AparatVideo
-
-    [HttpPost("PostAparatVideo")]
-    public async Task<IActionResult> PostAparatVideo([FromBody] CreateAparatVideoDto aparatVideo)
-    {
-        var aparatVideoDto = await _aparatVideoService.CreateAparatVideoAsync(aparatVideo);
-        return Ok(aparatVideoDto);
-    }
-
-    #endregion
     
     #region Get AparatVideo
     
@@ -42,5 +31,16 @@ public class AparatVideoController : ControllerBase
         return Ok(aparatVideoDto);
     }
     
+    #endregion
+    
+    #region Post AparatVideo
+
+    [HttpPost("PostAparatVideo")]
+    public async Task<IActionResult> PostAparatVideo([FromBody] CreateAparatVideoDto aparatVideo)
+    {
+        var aparatVideoDto = await _aparatVideoService.CreateAparatVideoAsync(aparatVideo);
+        return CreatedAtAction(nameof(GetAparatVideo), new { Id = aparatVideoDto.Id }, aparatVideoDto);
+    }
+
     #endregion
 }
