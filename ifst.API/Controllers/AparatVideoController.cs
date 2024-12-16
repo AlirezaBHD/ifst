@@ -68,4 +68,15 @@ public class AparatVideoController : ControllerBase
     }
 
     #endregion
+
+    #region Get AparatVideo List
+
+    [HttpGet("GetAparatVideo/List")]
+    public async Task<IActionResult> GetAparatVideoList()
+    {
+        var result =await _aparatVideoService.GetAparatVideoList();
+        return Ok(result);
+    }
+
+    #endregion
 }
