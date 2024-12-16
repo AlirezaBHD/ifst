@@ -51,4 +51,15 @@ public class AparatVideoService : IAparatVideoService
     }
 
     #endregion
+
+    #region Delete AparatVideo
+
+    public async Task DeleteAparatVideoAsync(int id)
+    {
+        var obj = await _aparatVideoRepository.GetByIdAsync(id);
+        _aparatVideoRepository.Remove(obj);
+        await _aparatVideoRepository.SaveAsync();
+    }
+
+    #endregion
 }
