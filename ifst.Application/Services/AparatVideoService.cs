@@ -26,19 +26,29 @@ public class AparatVideoService : IAparatVideoService
         _mapper = mapper;
         _fileService = fileService;
     }
+
+    #endregion
+
+    #region Create AparatVideo Service
+
+    public async Task<AparatVideoDto> CreateAparatVideoAsync(CreateAparatVideoDto aparatVideo)
+    {
+        var aparatVideoEntity = _mapper.Map<AparatVideo>(aparatVideo);
+        await _aparatVideoRepository.AddAsync(aparatVideoEntity);
+        await _aparatVideoRepository.SaveAsync();
+        var aparatVideoDto = _mapper.Map<AparatVideoDto>(aparatVideoEntity);
+        return aparatVideoDto;
+    }
+
+    #endregion
     
-#endregion
+    #region Get AparatVideo Service
 
-#region Create AparatVideo Service
+    public async Task<AparatVideoDto> GetAparatVideoAsync(int id)
+    {
+        var obj = await _generalServices.GetObjectById<AparatVideoDto>(id);
+        return obj;
+    }
 
-public async Task<AparatVideoDto> CreateAparatVideoAsync(CreateAparatVideoDto aparatVideo)
-{
-    var aparatVideoEntity = _mapper.Map<AparatVideo>(aparatVideo);
-    await _aparatVideoRepository.AddAsync(aparatVideoEntity);
-    await _aparatVideoRepository.SaveAsync();
-    var aparatVideoDto = _mapper.Map<AparatVideoDto>(aparatVideoEntity);
-    return aparatVideoDto;
-}
-
-#endregion
+    #endregion
 }
