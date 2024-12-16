@@ -26,19 +26,6 @@ public class GeneralServices<TEntity> : IGeneralServices<TEntity>
     #endregion
     
 
-    #region Add Entity Async
-
-    public async Task<TEntity> AddEntityAsync<TDto>(TDto dto)
-    {
-        var entity = _mapper.Map<TEntity>(dto);
-        await _repository.AddAsync(entity);
-        await _repository.SaveAsync();
-        return entity;
-    }
-
-    #endregion
-
-
     #region Update Entity
 
     public async Task UpdateEntityAsync<TDto>(
