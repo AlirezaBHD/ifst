@@ -72,4 +72,14 @@ public class AparatVideoService : IAparatVideoService
     }
 
     #endregion
+
+    #region AparatVideo List
+
+    public async Task<IEnumerable<AparatVideoDto>> GetAparatVideoList()
+    {
+        var objects =await _generalServices.GetAllObjects<AparatVideoDto>();
+        return objects;
+    }
+
+    #endregion
 }
