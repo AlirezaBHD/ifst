@@ -20,9 +20,9 @@ public class AparatVideoController : ControllerBase
     }
 
     #endregion
-    
+
     #region Get AparatVideo
-    
+
     [HttpGet("GetAparatVideo/{Id}")]
     public async Task<IActionResult> GetAparatVideo([FromRoute] GetObjectByIdDto aparatVideoId)
     {
@@ -30,9 +30,9 @@ public class AparatVideoController : ControllerBase
         var aparatVideoDto = await _aparatVideoService.GetAparatVideoAsync(id);
         return Ok(aparatVideoDto);
     }
-    
+
     #endregion
-    
+
     #region Post AparatVideo
 
     [HttpPost("PostAparatVideo")]
@@ -40,6 +40,18 @@ public class AparatVideoController : ControllerBase
     {
         var aparatVideoDto = await _aparatVideoService.CreateAparatVideoAsync(aparatVideo);
         return CreatedAtAction(nameof(GetAparatVideo), new { Id = aparatVideoDto.Id }, aparatVideoDto);
+    }
+
+    #endregion
+
+    #region Delete AparatVideo
+
+    [HttpDelete("DeleteAparatVideo/{Id}")]
+    public async Task<IActionResult> DeleteAparatVideo([FromRoute] GetObjectByIdDto aparatVideoId)
+    {
+        var id = aparatVideoId.Id;
+        await _aparatVideoService.DeleteAparatVideoAsync(id);
+        return Ok($".ویدیو شماره {id} با موفقیت حذف شد");
     }
 
     #endregion
