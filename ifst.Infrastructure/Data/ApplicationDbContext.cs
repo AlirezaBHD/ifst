@@ -21,6 +21,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<PublicImage> PublicImage { get; set; }
     public DbSet<News> News { get; set; }
     public DbSet<AparatVideo> AparatVideos { get; set; }
+    public DbSet<AboutUs> AboutUs { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -100,6 +101,21 @@ public class ApplicationDbContext : DbContext
             entity.HasKey(av => av.Id);
             entity.Property(av => av.Title);
             entity.Property(av => av.VideoScript);
+        });
+        
+        modelBuilder.Entity<AboutUs>(entity =>
+        {
+            entity.HasKey(au => au.Id);
+            entity.Property(au => au.Introduction);
+            entity.Property(au => au.Statutes);
+            entity.Property(au => au.ActivityLicense);
+            entity.Property(au => au.FoundingBoard);
+            entity.Property(au => au.BoardOfTrustees);
+            entity.Property(au => au.BoardOfDirectors);
+            entity.Property(au => au.CEO);
+            entity.Property(au => au.CommitteesAndWorkingGroups);
+            entity.Property(au => au.Archive);
+            entity.Property(au => au.Reports);
         });
         
         base.OnModelCreating(modelBuilder);
