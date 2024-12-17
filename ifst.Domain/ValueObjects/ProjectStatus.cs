@@ -6,4 +6,4 @@ public enum ProjectStatus
     Approved,
     NeedsRevision,
     Rejected
-}
+} 
