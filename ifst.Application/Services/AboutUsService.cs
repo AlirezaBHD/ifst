@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ifst.API.ifst.Application.DTOs;
 using ifst.API.ifst.Application.Interfaces;
 using ifst.API.ifst.Application.Interfaces.ServiceInterfaces;
 using ifst.API.ifst.Domain.Entities;
@@ -20,5 +21,11 @@ public class AboutUsService : IAboutUsService
         _generalServices = generalServices;
         _fileService = fileService;
         _mapper = mapper;
+    }
+
+    public async Task<AboutUsDto> GetAboutUsAsync()
+    {
+        var aboutUsObject = await _aboutUsRepository.AboutUsObject() ?? new AboutUsDto();
+        return aboutUsObject;
     }
 }
