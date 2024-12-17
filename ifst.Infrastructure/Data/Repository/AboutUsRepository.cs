@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ifst.API.ifst.Application.DTOs;
 using ifst.API.ifst.Application.Interfaces;
 using ifst.API.ifst.Domain.Entities;
 
@@ -13,5 +14,13 @@ public class AboutUsRepository: Repository<AboutUs> , IAboutUsRepository
     {
         _context = context;
         _mapper = mapper;
+    }
+
+    public async Task<AboutUsDto> AboutUsObject()
+    {
+        IQueryable query = _context.AboutUs;
+        var defaultAboutUs = _context.AboutUs.FirstOrDefault();
+        var defaultAboutUsDto = _mapper.Map<AboutUsDto>(defaultAboutUs);
+        return defaultAboutUsDto;
     }
 }
