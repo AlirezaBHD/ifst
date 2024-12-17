@@ -2,7 +2,7 @@
 using ifst.API.ifst.Application.DTOs.AparatVideoDto;
 using ifst.API.ifst.Application.FluentValidation.ValidationExtensions;
 
-namespace JsonPatchSample.ifst.Application.FluentValidation;
+namespace ifst.API.ifst.Application.FluentValidation.AparatVideoValidator;
 
 public class CreateAparatVideoValidator : AbstractValidator<CreateAparatVideoDto>
 {
