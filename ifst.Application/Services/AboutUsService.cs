@@ -25,8 +25,6 @@ public class AboutUsService : IAboutUsService
 
     public async Task<AboutUsDto> GetAboutUsAsync()
     {
-        var aboutUsObject = await _aboutUsRepository.AboutUsObject() ?? new AboutUsDto();
-        return aboutUsObject;
         var aboutUsObject = await _aboutUsRepository.AboutUsObject();
         if (aboutUsObject == null)
         {
@@ -36,5 +34,21 @@ public class AboutUsService : IAboutUsService
         return aboutUsDto;
     }
 
+    public async Task PutAboutUsAsync(CreateAboutUsDto aboutUsDto)
+    {
+        var aboutUsObject = await _aboutUsRepository.AboutUsObject();
+        
+        if (aboutUsObject == null)
+        {
+            var aboutUsEntity = _mapper.Map<AboutUs>(aboutUsDto);
+            await _aboutUsRepository.AddAsync(aboutUsEntity);
+        }
+        else
+        {
+            var aboutUsEntity = _mapper.Map(aboutUsDto,aboutUsObject );
+            _aboutUsRepository.Update(aboutUsEntity);
+        }
+
+        await _aboutUsRepository.SaveAsync();
     }
 }
