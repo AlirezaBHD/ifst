@@ -27,5 +27,14 @@ public class AboutUsService : IAboutUsService
     {
         var aboutUsObject = await _aboutUsRepository.AboutUsObject() ?? new AboutUsDto();
         return aboutUsObject;
+        var aboutUsObject = await _aboutUsRepository.AboutUsObject();
+        if (aboutUsObject == null)
+        {
+            return new AboutUsDto();
+        }
+        var aboutUsDto = _mapper.Map<AboutUsDto>(aboutUsObject);
+        return aboutUsDto;
+    }
+
     }
 }
