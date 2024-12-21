@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
+using ifst.API.ifst.Application.DTOs.UpdateProjectDto;
 using ifst.API.ifst.Application.Interfaces;
 using ifst.API.ifst.Application.Interfaces.ServiceInterfaces;
 using ifst.API.ifst.Domain.Entities;
 using ifst.API.ifst.Infrastructure.FileManagement;
 
 namespace ifst.API.ifst.Application.Services;
-
 
 public class UpdateProjectService : IUpdateProjectService
 {
@@ -14,12 +14,19 @@ public class UpdateProjectService : IUpdateProjectService
     private readonly IGeneralServices<UpdateProject> _generalServices;
     private readonly FileService _fileService;
 
-    public UpdateProjectService(IUpdateProjectRepository updateProjectRepository, IGeneralServices<UpdateProject> generalServices,
+    public UpdateProjectService(IUpdateProjectRepository updateProjectRepository,
+        IGeneralServices<UpdateProject> generalServices,
         FileService fileService, IMapper mapper)
     {
         _updateProjectRepository = updateProjectRepository;
         _generalServices = generalServices;
         _fileService = fileService;
         _mapper = mapper;
+    }
+
+    public async Task<UpdateProjectDetailDto> UpdateProjectDetail(int id)
+    {
+        var projectDetailDto = await _updateProjectRepository.GetByIdAsyncLimited<UpdateProjectDetailDto>(id);
+        return projectDetailDto;
     }
 }
