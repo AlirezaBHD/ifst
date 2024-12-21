@@ -1,4 +1,5 @@
-﻿using ifst.API.ifst.Domain.ValueObjects;
+﻿
+using ifst.API.ifst.Application.DTOs.UpdateProjectDto;
 
 namespace ifst.API.ifst.Application.DTOs;
 
@@ -54,7 +55,9 @@ public class ProjectDetailDto
     public string Place { get; set; }
     public string GatheredSupport { get; set; }
     public string Description { get; set; }
+    public int Progress { get; set; }
     public string InstituteName { get; set; }
+    public List<UpdateProjectDetailDto> Updates { get; set; }
 }
 
 public class InstituteUpdateProjectDto
