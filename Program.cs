@@ -62,6 +62,7 @@ builder.Services.AddScoped<IPublicImageService, PublicImageService>();
 builder.Services.AddScoped<INewsService, NewsService>();
 builder.Services.AddScoped<IAparatVideoService, AparatVideoService>();
 builder.Services.AddScoped<IAboutUsService, AboutUsService>();
+builder.Services.AddScoped<IUpdateProjectService, UpdateProjectService>();
 builder.Services.AddScoped(typeof(IPatchService<,>), typeof(PatchService<,>));
 builder.Services.AddValidatorsFromAssemblyContaining<CreateAlbumValidator>();
 builder.Services.AddFluentValidationAutoValidation();
