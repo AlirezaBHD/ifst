@@ -26,4 +26,7 @@ public class Project
     
     public int InstituteId { get; set; }
     public Institute Institute { get; set; }
+    
+    public ICollection<UpdateProject> UpdateProject { get; set; } = new List<UpdateProject>();
+
 }
