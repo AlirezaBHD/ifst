@@ -22,6 +22,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<News> News { get; set; }
     public DbSet<AparatVideo> AparatVideos { get; set; }
     public DbSet<AboutUs> AboutUs { get; set; }
+    public DbSet<UpdateProject> UpdateProject { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -80,6 +81,11 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<Project>()
             .Property(p => p.Status)
             .HasDefaultValue(ProjectStatus.NeedsRevision);
+        modelBuilder.Entity<Project>()
+            .HasMany(p => p.Updates)
+            .WithOne(u => u.Project)
+            .HasForeignKey(u => u.ProjectId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<PublicImage>(entity =>
         {
