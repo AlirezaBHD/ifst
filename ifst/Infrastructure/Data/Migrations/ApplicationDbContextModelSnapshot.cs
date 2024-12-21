@@ -410,6 +410,9 @@ namespace ifst.API.ifst.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Progress")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("StartDate")
                         .HasMaxLength(75)
                         .HasColumnType("datetime2");
@@ -450,6 +453,39 @@ namespace ifst.API.ifst.Infrastructure.Data.Migrations
                     b.ToTable("PublicImage");
                 });
 
+            modelBuilder.Entity("ifst.API.ifst.Domain.Entities.UpdateProject", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Accepted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Progress")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("UpdateProject");
+                });
+
             modelBuilder.Entity("ifst.API.ifst.Domain.Entities.Image", b =>
                 {
                     b.HasOne("ifst.API.ifst.Domain.Entities.Album", "Album")
@@ -471,6 +507,17 @@ namespace ifst.API.ifst.Infrastructure.Data.Migrations
                     b.Navigation("Institute");
                 });
 
+            modelBuilder.Entity("ifst.API.ifst.Domain.Entities.UpdateProject", b =>
+                {
+                    b.HasOne("ifst.API.ifst.Domain.Entities.Project", "Project")
+                        .WithMany("Updates")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+                });
+
             modelBuilder.Entity("ifst.API.ifst.Domain.Entities.Album", b =>
                 {
                     b.Navigation("Images");
@@ -479,6 +526,11 @@ namespace ifst.API.ifst.Infrastructure.Data.Migrations
             modelBuilder.Entity("ifst.API.ifst.Domain.Entities.Institute", b =>
                 {
                     b.Navigation("Projects");
+                });
+
+            modelBuilder.Entity("ifst.API.ifst.Domain.Entities.Project", b =>
+                {
+                    b.Navigation("Updates");
                 });
 #pragma warning restore 612, 618
         }
