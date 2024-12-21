@@ -45,7 +45,7 @@ public class ApplicationDbContext : DbContext
             entity.Property(c => c.Subject);
             entity.Property(c => c.Body);
         });
-        
+
         modelBuilder.Entity<ContactInformation>(entity =>
         {
             entity.HasKey(ci => ci.Id);
@@ -73,7 +73,7 @@ public class ApplicationDbContext : DbContext
             entity.Property(n => n.Body);
             entity.Property(n => n.Date);
         });
-        
+
         modelBuilder.Entity<Project>()
             .HasOne(p => p.Institute)
             .WithMany(i => i.Projects)
@@ -108,7 +108,7 @@ public class ApplicationDbContext : DbContext
             entity.Property(av => av.Title);
             entity.Property(av => av.VideoScript);
         });
-        
+
         modelBuilder.Entity<AboutUs>(entity =>
         {
             entity.HasKey(au => au.Id);
@@ -123,8 +123,12 @@ public class ApplicationDbContext : DbContext
             entity.Property(au => au.Archive);
             entity.Property(au => au.Reports);
         });
-        
+
+        modelBuilder.Entity<UpdateProject>(entity =>
+        {
+            entity.HasOne(up => up.Project).WithMany(p => p.Updates).HasForeignKey(up => up.ProjectId);
+        });
+
         base.OnModelCreating(modelBuilder);
-        
     }
 }
