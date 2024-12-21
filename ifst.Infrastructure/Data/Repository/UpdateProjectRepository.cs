@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using ifst.API.ifst.Application.Exceptions;
 using ifst.API.ifst.Application.Interfaces;
 using ifst.API.ifst.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace ifst.API.ifst.Infrastructure.Data.Repository;
 
@@ -14,4 +16,14 @@ public class UpdateProjectRepository: Repository<UpdateProject> , IUpdateProject
         _context = context;
         _mapper = mapper;
     }
+
+    public async Task<UpdateProject> UpdateProjectObject(int id)
+    {
+        IQueryable<UpdateProject> query = _context.Set<UpdateProject>();
+        query=query.Include(up => up.Project);
+        var obj = await query.FirstOrDefaultAsync(up => up.Id == id);
+        obj.ThrowIfNull("بروزرسانی پروژه");
+        return obj;
+    }
+    
 }

@@ -121,6 +121,7 @@ public class InstituteService : IInstituteService
     {
         var institute = await _instituteRepository.GetByIdAsync(instituteDto.Id);
         institute.Confirmed = institutesStatusDto.Confirmed == "true";
+        await _instituteRepository.SaveAsync();
     }
 
     

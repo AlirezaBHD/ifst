@@ -178,6 +178,26 @@ namespace ifst.API.ifst.Infrastructure.Data.Migrations
                     b.ToTable("ContactUs");
                 });
 
+            modelBuilder.Entity("ifst.API.ifst.Domain.Entities.Fund", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("GatheredAmount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Fund");
+                });
+
             modelBuilder.Entity("ifst.API.ifst.Domain.Entities.Image", b =>
                 {
                     b.Property<int>("Id")
@@ -386,6 +406,9 @@ namespace ifst.API.ifst.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("FundId")
+                        .HasColumnType("int");
+
                     b.Property<string>("GatheredSupport")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -427,6 +450,8 @@ namespace ifst.API.ifst.Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FundId");
 
                     b.HasIndex("InstituteId");
 
@@ -498,11 +523,18 @@ namespace ifst.API.ifst.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("ifst.API.ifst.Domain.Entities.Project", b =>
                 {
+                    b.HasOne("ifst.API.ifst.Domain.Entities.Fund", "Fund")
+                        .WithMany("Projects")
+                        .HasForeignKey("FundId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("ifst.API.ifst.Domain.Entities.Institute", "Institute")
                         .WithMany("Projects")
                         .HasForeignKey("InstituteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Fund");
 
                     b.Navigation("Institute");
                 });
@@ -521,6 +553,11 @@ namespace ifst.API.ifst.Infrastructure.Data.Migrations
             modelBuilder.Entity("ifst.API.ifst.Domain.Entities.Album", b =>
                 {
                     b.Navigation("Images");
+                });
+
+            modelBuilder.Entity("ifst.API.ifst.Domain.Entities.Fund", b =>
+                {
+                    b.Navigation("Projects");
                 });
 
             modelBuilder.Entity("ifst.API.ifst.Domain.Entities.Institute", b =>

@@ -9,5 +9,12 @@ public class UpdateProjectProfile : Profile
     public UpdateProjectProfile()
     {
         CreateMap<UpdateProject, UpdateProjectDetailDto>();
+        CreateMap<UpdateProject, UpdateProjectListDto>()
+            .ForMember(dest => dest.ProjectTitle, opt =>
+                opt.MapFrom(src => src.Project.Name))
+            .ForMember(dest => dest.ProjectId, opt =>
+                opt.MapFrom(src => src.Project.Id));
+        CreateMap<AddUpdateProject, UpdateProject>();
+
     }
 }
