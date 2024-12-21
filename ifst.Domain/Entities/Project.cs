@@ -28,5 +28,8 @@ public class Project
     public Institute Institute { get; set; }
     
     public ICollection<UpdateProject> Updates { get; set; } = new List<UpdateProject>();
+    
+    public int? FundId { get; set; }
+    public Fund? Fund { get; set; }
 
 }
