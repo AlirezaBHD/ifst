@@ -23,6 +23,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<AparatVideo> AparatVideos { get; set; }
     public DbSet<AboutUs> AboutUs { get; set; }
     public DbSet<UpdateProject> UpdateProject { get; set; }
+    public DbSet<Fund> Fund { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -86,6 +87,11 @@ public class ApplicationDbContext : DbContext
             .WithOne(u => u.Project)
             .HasForeignKey(u => u.ProjectId)
             .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<Project>()
+            .HasOne(p => p.Fund)
+            .WithMany(f => f.Projects)
+            .HasForeignKey(p => p.FundId)
+            .OnDelete(DeleteBehavior.SetNull);
 
         modelBuilder.Entity<PublicImage>(entity =>
         {
