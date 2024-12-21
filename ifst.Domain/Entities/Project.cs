@@ -22,6 +22,7 @@ public class Project
     public string GatheredSupport { get; set; }
     public string Summery { get; set; }
     public string Description { get; set; }
+    public int Progress { get; set; }
     
     public int InstituteId { get; set; }
     public Institute Institute { get; set; }
