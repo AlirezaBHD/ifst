@@ -14,7 +14,7 @@ public class UpdateProjectProfile : Profile
                 opt.MapFrom(src => src.Project.Name))
             .ForMember(dest => dest.ProjectId, opt =>
                 opt.MapFrom(src => src.Project.Id));
-        CreateMap<AddUpdateProject, UpdateProject>();
+        CreateMap<AddUpdateProjectDto, UpdateProject>();
 
     }
 }

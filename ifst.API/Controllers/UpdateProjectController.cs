@@ -46,15 +46,15 @@ public class UpdateProjectController : ControllerBase
     }
 
     [HttpPost("UpdateProject/{Id}")]
-    public async Task<IActionResult> PostUpdateProject([FromRoute] GetObjectByIdDto updateProjectId,[FromBody] AddUpdateProject updateProjectDto)
+    public async Task<IActionResult> PostUpdateProject([FromRoute] GetObjectByIdDto updateProjectId,[FromBody] AddUpdateProjectDto updateProjectDtoDto)
     {
-        await _updateProjectService.AddUpdateProject(updateProjectId.Id, updateProjectDto);
+        await _updateProjectService.AddUpdateProject(updateProjectId.Id, updateProjectDtoDto);
         return Ok(".بروزرسانی جدید برای پروژه با موفقیت ثبت گردید");
     }
     [HttpPut("UpdateProject/Update/{Id}")]
-    public async Task<IActionResult> PutUpdateProject([FromRoute] GetObjectByIdDto updateProjectId,[FromBody] AddUpdateProject updateProjectDto)
+    public async Task<IActionResult> PutUpdateProject([FromRoute] GetObjectByIdDto updateProjectId,[FromBody] AddUpdateProjectDto updateProjectDtoDto)
     {
-        await _updateProjectService.EditUpdateProject(updateProjectId.Id, updateProjectDto);
+        await _updateProjectService.EditUpdateProject(updateProjectId.Id, updateProjectDtoDto);
         return Ok(".بروزرسانی پروژه با موفقیت ثبت گردید");
     }
     

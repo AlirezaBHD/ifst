@@ -1,6 +1,6 @@
 ﻿namespace ifst.API.ifst.Application.DTOs.UpdateProjectDto;
 
-public class AddUpdateProject
+public class AddUpdateProjectDto
 {
     public string? Title { get; set; }
     public string? Description { get; set; }

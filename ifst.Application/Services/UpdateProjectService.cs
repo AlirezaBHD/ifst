@@ -68,10 +68,10 @@ public class UpdateProjectService : IUpdateProjectService
 
     #region Add UpdateProject
 
-    public async Task AddUpdateProject(int id, AddUpdateProject updateProjectDto)
+    public async Task AddUpdateProject(int id, AddUpdateProjectDto updateProjectDtoDto)
     {
         var project = await _projectRepository.GetByIdAsync(id);
-        var updateProject = _mapper.Map<UpdateProject>(updateProjectDto);
+        var updateProject = _mapper.Map<UpdateProject>(updateProjectDtoDto);
         project.Updates.Add(updateProject);
         await _projectRepository.SaveAsync();
     }
@@ -81,10 +81,10 @@ public class UpdateProjectService : IUpdateProjectService
 
     #region Edit UpdateProject
 
-    public async Task EditUpdateProject(int id, AddUpdateProject updateProjectDto)
+    public async Task EditUpdateProject(int id, AddUpdateProjectDto updateProjectDtoDto)
     {
         var updateProject = await _updateProjectRepository.GetByIdAsync(id);
-        await _generalServices.UpdateEntityAsync(updateProject, updateProjectDto);
+        await _generalServices.UpdateEntityAsync(updateProject, updateProjectDtoDto);
     }
 
 

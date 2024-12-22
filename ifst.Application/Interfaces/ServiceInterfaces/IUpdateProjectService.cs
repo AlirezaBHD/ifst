@@ -7,8 +7,8 @@ public interface IUpdateProjectService
     Task<UpdateProjectDetailDto> UpdateProjectDetail(int id);
     Task<IEnumerable<UpdateProjectListDto>> UpdateProjectList();
     Task UpdateStatus(int id, PatchUpdateProjectDto updateProjectDtoDto);
-    Task AddUpdateProject(int id, AddUpdateProject updateProjectDto);
-    Task EditUpdateProject(int id, AddUpdateProject updateProjectDto);
+    Task AddUpdateProject(int id, AddUpdateProjectDto updateProjectDtoDto);
+    Task EditUpdateProject(int id, AddUpdateProjectDto updateProjectDtoDto);
     
     Task DeleteUpdateProject(int id);
 

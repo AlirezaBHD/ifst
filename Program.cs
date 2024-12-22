@@ -45,6 +45,7 @@ builder.Services.AddScoped<INewsRepository, NewsRepository>();
 builder.Services.AddScoped<IAparatVideoRepository, AparatVideoRepository>();
 builder.Services.AddScoped<IAboutUsRepository, AboutUsRepository>();
 builder.Services.AddScoped<IUpdateProjectRepository, UpdateProjectRepository>();
+builder.Services.AddScoped<IFundRepository, FundRepository>();
 //
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 //
@@ -63,6 +64,7 @@ builder.Services.AddScoped<INewsService, NewsService>();
 builder.Services.AddScoped<IAparatVideoService, AparatVideoService>();
 builder.Services.AddScoped<IAboutUsService, AboutUsService>();
 builder.Services.AddScoped<IUpdateProjectService, UpdateProjectService>();
+builder.Services.AddScoped<IFundService, FundService>();
 builder.Services.AddScoped(typeof(IPatchService<,>), typeof(PatchService<,>));
 builder.Services.AddValidatorsFromAssemblyContaining<CreateAlbumValidator>();
 builder.Services.AddFluentValidationAutoValidation();
