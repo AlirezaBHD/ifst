@@ -478,6 +478,70 @@ namespace ifst.API.ifst.Infrastructure.Data.Migrations
                     b.ToTable("PublicImage");
                 });
 
+            modelBuilder.Entity("ifst.API.ifst.Domain.Entities.Student", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Field")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateOnly?>("GraduationDate")
+                        .HasColumnType("date");
+
+                    b.Property<int>("InstituteId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("LastUniversity")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("NationalCardImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NationalCode")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StudentCardImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StudentId")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("YearOfEntry")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InstituteId");
+
+                    b.ToTable("Students");
+                });
+
             modelBuilder.Entity("ifst.API.ifst.Domain.Entities.UpdateProject", b =>
                 {
                     b.Property<int>("Id")
@@ -539,6 +603,17 @@ namespace ifst.API.ifst.Infrastructure.Data.Migrations
                     b.Navigation("Institute");
                 });
 
+            modelBuilder.Entity("ifst.API.ifst.Domain.Entities.Student", b =>
+                {
+                    b.HasOne("ifst.API.ifst.Domain.Entities.Institute", "Institute")
+                        .WithMany("Students")
+                        .HasForeignKey("InstituteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Institute");
+                });
+
             modelBuilder.Entity("ifst.API.ifst.Domain.Entities.UpdateProject", b =>
                 {
                     b.HasOne("ifst.API.ifst.Domain.Entities.Project", "Project")
@@ -563,6 +638,8 @@ namespace ifst.API.ifst.Infrastructure.Data.Migrations
             modelBuilder.Entity("ifst.API.ifst.Domain.Entities.Institute", b =>
                 {
                     b.Navigation("Projects");
+
+                    b.Navigation("Students");
                 });
 
             modelBuilder.Entity("ifst.API.ifst.Domain.Entities.Project", b =>
