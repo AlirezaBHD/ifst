@@ -24,6 +24,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<AboutUs> AboutUs { get; set; }
     public DbSet<UpdateProject> UpdateProject { get; set; }
     public DbSet<Fund> Fund { get; set; }
+    public DbSet<Student> Students { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -92,6 +93,12 @@ public class ApplicationDbContext : DbContext
             .WithMany(f => f.Projects)
             .HasForeignKey(p => p.FundId)
             .OnDelete(DeleteBehavior.SetNull);
+        
+        
+        modelBuilder.Entity<Student>()
+            .HasOne(s => s.Institute)
+            .WithMany(i => i.Students)
+            .HasForeignKey(s => s.InstituteId);
 
         modelBuilder.Entity<PublicImage>(entity =>
         {
