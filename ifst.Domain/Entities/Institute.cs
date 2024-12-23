@@ -15,4 +15,5 @@ public class Institute
     public string ImagesPath { get; set; }
     public string Description { get; set; }
     public ICollection<Project> Projects { get; set; } = new List<Project>();
+    public ICollection<Student> Students { get; set; } = new List<Student>();
 }
