@@ -46,6 +46,7 @@ builder.Services.AddScoped<IAparatVideoRepository, AparatVideoRepository>();
 builder.Services.AddScoped<IAboutUsRepository, AboutUsRepository>();
 builder.Services.AddScoped<IUpdateProjectRepository, UpdateProjectRepository>();
 builder.Services.AddScoped<IFundRepository, FundRepository>();
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 //
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 //
