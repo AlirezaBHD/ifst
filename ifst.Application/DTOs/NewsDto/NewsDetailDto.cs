@@ -8,5 +8,7 @@ public class NewsDetailDto
     
     public string ImagePath { get; set; }
     
+    public DateTime Date { get; set; }
+    
     public string Body { get; set; }
 }

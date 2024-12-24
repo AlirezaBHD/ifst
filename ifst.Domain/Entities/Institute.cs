@@ -11,6 +11,7 @@ public class Institute
     [Required] [MaxLength(75)] public string RequesterFullName { get; set; }
     public string? RequesterEmail { get; set; }
     [Required] public string RequesterNationalId { get; set; }
+    public string? PhoneNumber { get; set; }
     [DefaultValue(false)] public bool Confirmed { get; set; }
     public string ImagesPath { get; set; }
     public string Description { get; set; }

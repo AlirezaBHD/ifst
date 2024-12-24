@@ -248,6 +248,9 @@ namespace ifst.API.ifst.Infrastructure.Data.Migrations
                         .HasMaxLength(75)
                         .HasColumnType("nvarchar(75)");
 
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("RequesterEmail")
                         .HasColumnType("nvarchar(max)");
 

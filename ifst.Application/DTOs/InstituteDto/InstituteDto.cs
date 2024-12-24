@@ -25,7 +25,8 @@ public class CreateInstituteDto
 
     public string RequesterNationalId { get; set; }
     [Required]
-
+    
+    public string? PhoneNumber { get; set; }
 
     public IFormFile Image { get; set; }
     [Required]
@@ -44,6 +45,9 @@ public class MainListedInstitutesDto
 {
     public string Id { get; set; }
     public string Name { get; set; }
+    public string RequesterFullName { get; set; }
+    public string RequesterEmail { get; set; }
+    public string? PhoneNumber { get; set; }
     public string ImagesPath { get; set; }
     public bool Confirmed { get; set; }
     public string Description { get; set; }

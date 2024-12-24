@@ -8,5 +8,7 @@ public class ListedNewsDto
     
     public string ImagePath { get; set; }
     
+    public DateTime Date { get; set; }
+    
     public string? Summery { get; set; }
 }

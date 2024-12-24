@@ -2,6 +2,7 @@
 using ifst.API.ifst.Application.DTOs.AparatVideoDto;
 using ifst.API.ifst.Application.Interfaces.ServiceInterfaces;
 using ifst.API.ifst.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ifst.API.ifst.API.Controllers;
@@ -70,7 +71,7 @@ public class AparatVideoController : ControllerBase
     #endregion
 
     #region Get AparatVideo List
-
+    [Authorize]
     [HttpGet("GetAparatVideo/List")]
     public async Task<IActionResult> GetAparatVideoList()
     {
